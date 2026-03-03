@@ -1,0 +1,4478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 FriendMail - TEXTING & CALLING</title>
+    <style>
+        /* 
+        ============================================
+        FRIENDMAIL - ULTIMATE LOCKED EDITION
+        Created by: Ian Dayal & Luis Garrido Vasquez
+        ============================================
+        */
+        
+        /* ANTI-MODIFICATION HASH: 7A9F3B2C8D4E1F5A6B3C7D9E2F4A6B8C */
+        /* INTEGRITY CHECK - CRITICAL SYSTEM */
+        #integrity-monitor {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #000;
+            color: #ff0000;
+            text-align: center;
+            padding: 20px;
+            z-index: 999999;
+            font-size: 20px;
+            border: 3px solid red;
+        }
+        
+        /* ANTI-INSPECT - Disable selection everywhere */
+        * { box-sizing: border-box; }
+
+        /* Allow typing in inputs and textareas ONLY */
+        input, textarea, [contenteditable="true"], select, button {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        :root {
+            --bg-primary: #0a0b0e;
+            --bg-secondary: #1a1b1e;
+            --bg-tertiary: #25262b;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #667eea;
+            --accent-secondary: #764ba2;
+            --accent-success: #4caf50;
+            --accent-danger: #f44336;
+            --accent-warning: #ff9800;
+            --accent-info: #2196f3;
+            --border-color: #2c2e33;
+            --message-sent: #2b2f36;
+            --message-received: #1e1f23;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            transition: var(--transition);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-mode {
+            --bg-primary: #f0f2f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f8f9fa;
+            --text-primary: #1a1b1e;
+            --text-secondary: #5f6368;
+            --border-color: #e0e0e0;
+            --message-sent: #e3f2fd;
+            --message-received: #ffffff;
+        }
+
+        body.age-13-mode {
+            --accent-primary: #ff6b6b;
+            --accent-secondary: #ff8e8e;
+        }
+
+        body.age-9-mode {
+            --accent-primary: #4caf50;
+            --accent-secondary: #81c784;
+        }
+
+        /* PROTECTION BANNER */
+        .protection-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #8b0000;
+            color: white;
+            text-align: center;
+            padding: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10000;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .protection-banner span {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        /* Credits - Bottom Left Corner */
+        .credits-bar {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .credits-bar .names {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-card {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h1 {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .auth-header .badge {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+
+        .current-date {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-top: 10px;
+            padding: 5px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .code-tab {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .code-tab.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .code-box {
+            background: var(--bg-tertiary);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .code-box .code {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .hidden-panel {
+            background: var(--bg-tertiary);
+            padding: 25px;
+            border-radius: 16px;
+            margin: 20px 0;
+            border: 2px solid var(--accent-warning);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+        }
+
+        .hidden-panel.logs {
+            border-color: var(--accent-info);
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--accent-warning);
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            background: linear-gradient(135deg, var(--accent-warning), #f57c00);
+            color: white;
+        }
+
+        .unlock-btn.logs {
+            background: linear-gradient(135deg, var(--accent-info), #1976d2);
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .form-group input, .form-group select {
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1em;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            transform: scale(1.02);
+        }
+
+        .auth-button {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .auth-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .app-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-primary);
+        }
+
+        .app-container.active {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 380px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .user-profile {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-profile::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .user-details h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .user-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 0.9em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-success);
+            animation: pulse 2s infinite;
+        }
+
+        .search-bar {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .search-results {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .sidebar-tab {
+            flex: 1;
+            padding: 15px 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .sidebar-tab.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .online-count {
+            background: var(--accent-success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .friend-item, .group-item, .user-search-item, .online-user-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .friend-item:hover, .group-item:hover, .user-search-item:hover, .online-user-item:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-primary);
+        }
+
+        .friend-item.selected, .group-item.selected {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-color: white;
+        }
+
+        .friend-avatar, .group-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            position: relative;
+        }
+
+        .group-avatar {
+            background: linear-gradient(135deg, var(--accent-secondary), #9c27b0);
+            border-radius: 16px;
+        }
+
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            border: 2px solid var(--bg-secondary);
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .friend-status {
+            font-size: 0.75em;
+            color: var(--accent-success);
+        }
+
+        .friend-item.selected .friend-status,
+        .group-item.selected .friend-status {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .unread-badge {
+            background: var(--accent-danger);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        .friend-pinned {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--accent-warning);
+        }
+
+        .joined-badge {
+            background: var(--accent-success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            margin-left: 5px;
+            white-space: nowrap;
+        }
+
+        .group-actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .join-btn, .leave-btn, .delete-group-btn, .add-friend-btn, .accept-btn, .decline-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .join-btn {
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .leave-btn {
+            background: var(--accent-warning);
+            color: white;
+        }
+
+        .delete-group-btn {
+            background: var(--accent-danger);
+            color: white;
+        }
+
+        .add-friend-btn {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .accept-btn {
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .decline-btn {
+            background: var(--accent-danger);
+            color: white;
+        }
+
+        .join-btn:hover, .leave-btn:hover, .delete-group-btn:hover, .add-friend-btn:hover,
+        .accept-btn:hover, .decline-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .create-group {
+            background: linear-gradient(135deg, var(--accent-success), #45a049);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .create-group:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .mod-panel {
+            background: linear-gradient(135deg, #2c1a1a, #1a0f0f);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-danger);
+        }
+
+        .mod-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-danger);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .user-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .user-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ban-btn, .kick-btn, .unban-btn, .permaban-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: var(--transition);
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .ban-btn {
+            background: var(--accent-danger);
+            color: white;
+        }
+
+        .permaban-btn {
+            background: #8b0000;
+            color: white;
+        }
+
+        .kick-btn {
+            background: var(--accent-warning);
+            color: white;
+        }
+
+        .unban-btn {
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .ban-btn:hover, .kick-btn:hover, .unban-btn:hover, .permaban-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .banned-user-badge {
+            background: var(--accent-danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+
+        .permabanned-badge {
+            background: #8b0000;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+
+        .logs-panel {
+            background: #0a0f0a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 16px;
+            font-family: 'Courier New', monospace;
+            height: 100%;
+            overflow-y: auto;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0,255,0,0.2);
+        }
+
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px solid #1a3a1a;
+            font-size: 0.9em;
+            animation: fadeIn 0.5s;
+        }
+
+        .log-entry .timestamp {
+            color: #888;
+            margin-right: 15px;
+        }
+
+        .log-entry .event {
+            color: #00ff00;
+        }
+
+        .log-entry .danger {
+            color: #ff4444;
+        }
+
+        .log-entry .warning {
+            color: #ffaa00;
+        }
+
+        .log-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #1a2a1a;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #00ff00;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .online-user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #1a2a1a;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #2a3a2a;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-primary);
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chat-header-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-info h2 {
+            font-size: 1.3em;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chat-header-status {
+            font-size: 0.85em;
+            color: var(--accent-success);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-type-badge {
+            font-size: 0.7em;
+            background: var(--accent-info);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 10px;
+        }
+
+        .call-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .call-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .call-btn.text-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: auto;
+            padding: 0 20px;
+            border-radius: 30px;
+        }
+
+        .call-btn.call-btn-audio {
+            background: var(--accent-success);
+        }
+
+        .call-btn.call-btn-video {
+            background: var(--accent-warning);
+        }
+
+        .call-btn.screen-share {
+            background: var(--accent-info);
+        }
+
+        .call-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .call-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: var(--bg-primary);
+        }
+
+        .message {
+            max-width: 70%;
+            display: flex;
+            flex-direction: column;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            align-self: flex-end;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received .message-bubble {
+            background: var(--message-received);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message-sender {
+            font-size: 0.7em;
+            font-weight: bold;
+            margin-bottom: 2px;
+            color: var(--accent-info);
+        }
+
+        .message.received .message-sender {
+            color: var(--accent-warning);
+        }
+
+        .message-content {
+            line-height: 1.4;
+        }
+
+        .message-content a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        .message.sent .message-content a {
+            color: white;
+        }
+
+        .message-image {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-image:hover {
+            transform: scale(1.05);
+        }
+
+        .message-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            font-size: 0.7em;
+            color: var(--text-secondary);
+        }
+
+        .message.sent .message-footer {
+            justify-content: flex-end;
+        }
+
+        .message-status {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .status-icon {
+            font-size: 1.1em;
+        }
+
+        .status-icon.sent { color: var(--text-secondary); }
+        .status-icon.delivered { color: var(--accent-info); }
+        .status-icon.read { color: var(--accent-success); }
+
+        .message-reactions {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .reaction:hover {
+            transform: scale(1.1);
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .message-actions {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .message-bubble:hover .message-actions {
+            opacity: 1;
+        }
+
+        .message-action {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: var(--transition);
+        }
+
+        .message-action:hover {
+            background: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        .typing-indicator {
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .message-composer {
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .composer-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background: var(--accent-primary);
+            transform: scale(1.1);
+        }
+
+        .message-input-container {
+            flex: 1;
+            background: var(--bg-tertiary);
+            border-radius: 25px;
+            padding: 12px 18px;
+        }
+
+        .message-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            resize: none;
+            max-height: 100px;
+            font-size: 0.95em;
+            color: var(--text-primary);
+        }
+
+        .message-input:focus {
+            outline: none;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: var(--shadow);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .emoji-picker {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .emoji {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .emoji:hover {
+            background: var(--accent-primary);
+            transform: scale(1.2);
+        }
+
+        .call-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .call-modal.active {
+            display: flex;
+        }
+
+        .call-container {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 30px;
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .videos-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .video-box {
+            flex: 1;
+            min-width: 300px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--accent-primary);
+            position: relative;
+        }
+
+        .video-box.local {
+            border-color: var(--accent-success);
+        }
+
+        .video-box.screen-share {
+            border-color: var(--accent-warning);
+        }
+
+        .video-box h4 {
+            color: white;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .video-element {
+            width: 100%;
+            height: 250px;
+            background: #000;
+            object-fit: cover;
+        }
+
+        .screen-share-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-warning);
+            color: black;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 20;
+        }
+
+        .call-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .call-timer {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--text-primary);
+        }
+
+        .call-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .call-control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: var(--transition);
+        }
+
+        .call-control-btn.mute { background: var(--accent-info); color: white; }
+        .call-control-btn.video { background: var(--accent-success); color: white; }
+        .call-control-btn.screen { background: var(--accent-warning); color: black; }
+        .call-control-btn.end { background: var(--accent-danger); color: white; }
+        .call-control-btn:hover { transform: scale(1.1); }
+
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            transition: var(--transition);
+            z-index: 1500;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .settings-panel.active {
+            right: 0;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-header h2 {
+            color: var(--text-primary);
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section h3 {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .settings-item select {
+            padding: 8px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: var(--border-color);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-switch.active {
+            background: var(--accent-success);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: var(--transition);
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .notification-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent-danger);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            animation: slideInRight 0.3s ease;
+            z-index: 3000;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0%); opacity: 1; }
+        }
+
+        .welcome-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .welcome-screen h2 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2.5em;
+            z-index: 5000;
+            animation: fadeOut 1s ease 2s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .current-date-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        /* Friend Code Section */
+        .friend-code-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .friend-code-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .friend-code-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .friend-code-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .friend-code-input {
+            flex: 1;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+        }
+
+        .friend-code-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .friend-code-add-btn {
+            padding: 12px 20px;
+            background: var(--accent-success);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .friend-code-add-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Online Users Panel */
+        .online-users-panel {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--accent-primary);
+        }
+
+        .online-users-panel h4 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-users-panel .user-count {
+            background: var(--accent-success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        /* Message Logs for Logs Role */
+        .message-log-entry {
+            padding: 12px;
+            background: #1a2a1a;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 4px solid #00ff00;
+        }
+
+        .message-log-sender {
+            color: #00ff00;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .message-log-recipient {
+            color: #888;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        .message-log-content {
+            color: #fff;
+            margin: 5px 0;
+            font-size: 1em;
+        }
+
+        .message-log-time {
+            color: #666;
+            font-size: 0.7em;
+        }
+
+        .message-log-type {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+
+        .message-log-type.private { background: var(--accent-info); color: white; }
+        .message-log-type.group { background: var(--accent-warning); color: black; }
+
+        /* Profanity Filter */
+        .profanity-warning {
+            color: var(--accent-warning);
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+        
+        /* Friend Requests Badge */
+        .friend-requests-badge {
+            background: var(--accent-danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        
+        .pending-request-item {
+            background: rgba(255, 152, 0, 0.2);
+            border-left: 4px solid var(--accent-warning);
+        }
+        
+        
+        /* Accessibility: visible focus rings */
+        :focus { outline: none; }
+        :focus-visible {
+            outline: 3px solid rgba(102, 126, 234, 0.9);
+            outline-offset: 3px;
+            border-radius: 10px;
+        }
+
+        /* Accessibility: respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+        }
+
+/* CHECKSUM_VISUAL_END */
+    </style>
+    <script defer src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <!-- INTEGRITY MONITOR - PROTECTION SYSTEM -->
+    <div id="integrity-monitor"></div>
+
+    <!-- PROTECTION BANNER -->
+    <div class="protection-banner">
+        <span>© COPYRIGHT PROTECTED</span>
+        <span>🔒 ULTIMATE LOCKED EDITION</span>
+        <span>⚡ Please don’t redistribute without credit</span>
+    </div>
+
+    <!-- Credits - Always at bottom left, out of the way -->
+    <div class="credits-bar">
+        Made by <span class="names">Ian Dayal</span> & <span class="names">Luis Garrido Vasquez</span>
+        <span style="margin-left: 10px; color: #ff6b6b;">🔒</span>
+    </div>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <div style="margin-left: 20px;">FriendMail - TEXTING & CALLING</div>
+    </div>
+
+    <div class="current-date-badge" id="currentDate"></div>
+
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>FriendMail</h1>
+                <div class="badge">📱 TEXTING &amp; CALLING</div>
+                <div class="current-date" id="authDate"></div>
+            </div>
+            
+            <div class="code-tabs">
+                <button type="button" class="code-tab user-tab active" onclick="switchCodeTab('user', event)">
+                    <span>👤</span>
+                    <span>USER</span>
+                </button>
+                <button type="button" class="code-tab mod-tab" onclick="switchCodeTab('mod', event)">
+                    <span>🛡️</span>
+                    <span>MOD</span>
+                </button>
+                <button type="button" class="code-tab logs-tab" onclick="switchCodeTab('logs', event)">
+                    <span>📋</span>
+                    <span>LOGS</span>
+                </button>
+            </div>
+
+            <!-- USER Code Box -->
+            <div id="userCodeBox" class="code-box">
+                <div class="code">USER-2026</div>
+            </div>
+
+            <!-- MOD Panel -->
+            <div id="modPanel" class="hidden-panel" style="display: none;">
+                <input type="password" id="modPassword" class="password-input" placeholder="Enter moderator password">
+                <button type="button" class="unlock-btn" onclick="unlockMod()">Unlock Mod Access</button>
+            </div>
+
+            <!-- LOGS Panel -->
+            <div id="logsPanel" class="hidden-panel logs" style="display: none;">
+                <input type="password" id="logsPassword" class="password-input" placeholder="Enter logs password">
+                <button type="button" class="unlock-btn logs" onclick="unlockLogs()">Unlock Logs Access</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="username" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Age Mode</label>
+                    <select id="ageMode" required>
+                        <option value="13">13+ Mode</option>
+                        <option value="9">9-12 Mode</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Access Code</label>
+                    <input type="password" id="accessCode" placeholder="Enter code" required>
+                </div>
+                <button type="submit" class="auth-button">Access Platform</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="appContainer" class="app-container">
+        <div class="sidebar">
+            <div class="user-profile">
+                <div class="user-info">
+                    <div class="avatar" id="userAvatar" onclick="openSettings()">👤</div>
+                    <div class="user-details">
+                        <h3 id="userDisplayName">Loading...</h3>
+                        <span class="user-badge" id="userBadge">User</span>
+                    </div>
+                </div>
+                <div class="connection-status">
+                    <span class="status-dot"></span>
+                    <span id="connectionStatus">Connecting...</span>
+                </div>
+            </div>
+
+            <!-- Friend Code Section -->
+            <div class="friend-code-section">
+                <div class="friend-code-label">🔑 Your Friend Code</div>
+                <div class="friend-code-value" id="userFriendCode">••••••</div>
+                <button type="button" class="friend-code-add-btn" onclick="copyFriendCode()" style="width: 100%;">Copy Code</button>
+                
+                <div style="margin-top: 15px;">
+                    <div class="friend-code-label">➕ Add Friend by Code</div>
+                    <div class="friend-code-input-group">
+                        <input type="text" id="friendCodeInput" class="friend-code-input" placeholder="Enter 6-digit code" maxlength="6" autocomplete="off">
+                        <button type="button" class="friend-code-add-btn" onclick="addFriendByCode()">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for users...">
+                <div id="searchResults" class="search-results" style="display: none;"></div>
+            </div>
+
+            <div class="sidebar-tabs" id="tabsContainer"></div>
+
+            <div id="tabContentContainer" style="flex: 1; overflow-y: auto;">
+                <!-- Friends Tab -->
+                <div id="friendsTab" class="tab-content active">
+                    <div class="section-header">
+                        <span>
+                            👥 My Friends
+                            <span id="pendingRequestsCount" class="friend-requests-badge" style="display: none;">0</span>
+                        </span>
+                        <span class="online-count" id="onlineCount">0 online</span>
+                    </div>
+                    <div id="friendsList"></div>
+                </div>
+
+                <!-- Groups Tab -->
+                <div id="groupsTab" class="tab-content" style="display: none;">
+                    <button type="button" class="create-group" onclick="showCreateGroup()">➕ Create New Group</button>
+                    <div id="groupsList" style="margin-top: 20px;"></div>
+                </div>
+
+                <!-- Mod Tab -->
+                <div id="modTab" class="tab-content" style="display: none;">
+                    <div class="mod-panel">
+                        <div class="mod-title">
+                            <span>🛡️ Moderation Panel</span>
+                        </div>
+
+                        <!-- All Online Users -->
+                        <div class="online-users-panel">
+                            <h4>
+                                👥 All Online Users 
+                                <span class="user-count" id="allOnlineCount">0</span>
+                            </h4>
+                            <div id="allOnlineUsersList" style="max-height: 200px; overflow-y: auto;"></div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">👥 Online Friends</h4>
+                            <div id="onlineUsersList" class="user-list"></div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">🚫 Banned Users</h4>
+                            <button type="button" onclick="toggleBanList()" style="width: 100%; padding: 12px; background: var(--accent-warning); color: white; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 10px;">Toggle Ban List</button>
+                            <div id="banList" style="display: none; max-height: 200px; overflow-y: auto;"></div>
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <h4 style="color: var(--text-primary); margin-bottom: 10px;">⚡ Quick Actions</h4>
+                            <button type="button" onclick="broadcastMessage()" style="width: 100%; padding: 12px; background: var(--accent-info); color: white; border: none; border-radius: 8px; cursor: pointer;">Broadcast to All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logs Tab -->
+                <div id="logsTab" class="tab-content" style="display: none;">
+                    <div class="logs-panel">
+                        <h3 style="color: #00ff00; margin-bottom: 20px;">📋 MESSAGE LOGS</h3>
+                        
+                        <div class="log-stats">
+                            <div class="stat-card">
+                                <div class="value" id="totalUsers">0</div>
+                                <div class="label">Total Users</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="value" id="onlineNow">0</div>
+                                <div class="label">Online Now</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="value" id="totalMessages">0</div>
+                                <div class="label">Messages</div>
+                            </div>
+                        </div>
+
+                        <h4 style="color: #00ff00; margin: 15px 0;">📝 Live Message Feed</h4>
+                        <div id="messageLogs" style="max-height: 400px; overflow-y: auto;"></div>
+
+                        <h4 style="color: #00ff00; margin: 15px 0;">🟢 Currently Online</h4>
+                        <div id="onlineUsersDetailed" style="margin-bottom: 20px;"></div>
+
+                        <h4 style="color: #00ff00; margin: 15px 0;">🚫 Permanently Banned Users</h4>
+                        <div id="bannedUsersList" style="margin-bottom: 20px; max-height: 100px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div id="chatHeader" class="chat-header" style="display: none;">
+                <div class="chat-header-avatar" id="chatAvatar">👤</div>
+                <div class="chat-header-info">
+                    <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                        <h2 id="chatFriendName">Select a friend</h2>
+                        <span class="chat-type-badge" id="chatTypeBadge">Private</span>
+                    </div>
+                    <div class="chat-header-status">
+                        <span class="status-dot" style="width: 8px; height: 8px;"></span>
+                        <span id="chatFriendStatus">Connected</span>
+                        <span id="lastSeen" style="color: var(--text-secondary); margin-left: 10px;"></span>
+                    </div>
+                </div>
+                <div class="call-buttons">
+                    <button type="button" class="call-btn text-btn" onclick="document.getElementById('messageInput').focus()" title="Text Chat">💬 TEXT</button>
+                    <button type="button" class="call-btn call-btn-audio" onclick="startCall('audio')" title="Voice Call">🎤</button>
+                    <button type="button" class="call-btn call-btn-video" onclick="startCall('video')" title="Video Call">📹</button>
+                    <button type="button" class="call-btn screen-share" id="screenShareBtn" onclick="toggleScreenShare()" title="Share Screen">🖥️</button>
+                    <button type="button" class="call-btn" onclick="pinChat()" title="Pin Chat">📌</button>
+                    <button type="button" class="call-btn" onclick="openSettings()" title="Settings">⚙️</button>
+                </div>
+            </div>
+
+            <div id="messagesContainer" class="messages-container"></div>
+
+            <div id="typingIndicator" class="typing-indicator" style="display: none;">
+                <span id="typingUserName">Someone</span> is typing
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div id="messageComposer" class="message-composer">
+                <div class="composer-actions">
+                    <button type="button" class="action-btn" onclick="toggleEmojiPicker()">😊</button>
+                    <button type="button" class="action-btn" onclick="document.getElementById('imageUpload').click()">📷</button>
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                </div>
+                <div class="message-input-container">
+                    <textarea 
+                        id="messageInput" 
+                        class="message-input" 
+                        placeholder="Type a message..."
+                        rows="1"
+                        oninput="handleTyping()"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+                </div>
+                <button type="button" class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>➤</button>
+            </div>
+
+            <div id="emojiPicker" class="emoji-picker" style="display: none;">
+                <span class="emoji" onclick="addEmoji('😊')">😊</span>
+                <span class="emoji" onclick="addEmoji('❤️')">❤️</span>
+                <span class="emoji" onclick="addEmoji('😂')">😂</span>
+                <span class="emoji" onclick="addEmoji('👍')">👍</span>
+                <span class="emoji" onclick="addEmoji('🎉')">🎉</span>
+                <span class="emoji" onclick="addEmoji('🔥')">🔥</span>
+                <span class="emoji" onclick="addEmoji('😢')">😢</span>
+                <span class="emoji" onclick="addEmoji('👏')">👏</span>
+                <span class="emoji" onclick="addEmoji('✅')">✅</span>
+                <span class="emoji" onclick="addEmoji('⭐')">⭐</span>
+                <span class="emoji" onclick="addEmoji('👋')">👋</span>
+                <span class="emoji" onclick="addEmoji('🤔')">🤔</span>
+            </div>
+
+            <div id="welcomeScreen" class="welcome-screen">
+                <h2>Welcome to FriendMail</h2>
+                <p>Your role: <span id="welcomeRole">User</span></p>
+                <p style="font-size: 2em; margin: 20px 0;" id="welcomePeerId">loading...</p>
+                <p style="color: var(--text-secondary);">💬 TEXT • 🎤 CALL • 📹 VIDEO • 🖥️ SHARE</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal -->
+    <div id="callModal" class="call-modal">
+        <div class="call-container">
+            <div class="videos-container" id="videosContainer">
+                <div class="video-box local" id="localVideoBox">
+                    <h4>You</h4>
+                    <video id="localVideo" class="video-element" autoplay muted playsinline></video>
+                    <div class="screen-share-indicator" id="localScreenIndicator" style="display: none;">🖥️ Sharing Screen</div>
+                </div>
+                <div class="video-box remote" id="remoteVideoBox">
+                    <h4 id="remoteVideoLabel">Friend</h4>
+                    <video id="remoteVideo" class="video-element" autoplay playsinline></video>
+                    <div class="screen-share-indicator" id="remoteScreenIndicator" style="display: none;">🖥️ Screen Share</div>
+                </div>
+            </div>
+            <div class="call-timer" id="callTimer">00:00</div>
+            <div class="call-controls">
+                <button type="button" class="call-control-btn mute" onclick="toggleMute()" id="muteBtn" title="Mute" aria-label="Mute/unmute">🔇</button>
+                <button type="button" class="call-control-btn video" onclick="toggleVideo()" id="videoBtn" title="Toggle Camera" aria-label="Toggle camera">📹</button>
+                <button type="button" class="call-control-btn screen" onclick="toggleScreenShare()" id="screenShareCallBtn" title="Share Screen" aria-label="Share screen">🖥️</button>
+                <button type="button" class="call-control-btn end" onclick="endCall()" title="End Call">🔴</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel">
+        <div class="settings-header">
+            <h2>Settings</h2>
+            <button type="button" class="close-settings" onclick="closeSettings()">✕</button>
+        </div>
+
+        <div class="settings-section">
+            <h3>Age Mode</h3>
+            <div class="settings-item">
+                <span>Content Filter</span>
+                <select id="settingsAgeMode" onchange="changeAgeMode(this.value)">
+                    <option value="13">13+ Mode</option>
+                    <option value="9">9-12 Mode</option>
+                </select>
+            </div>
+            <div class="settings-item">
+                <span>Profanity Filter</span>
+                <div class="toggle-switch" id="profanityToggle" onclick="toggleProfanityFilter()"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Profile</h3>
+            <div class="settings-item">
+                <span>Display Name</span>
+                <input type="text" id="settingsDisplayName" style="padding: 8px; background: var(--bg-tertiary); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+            <div class="settings-item">
+                <span>Bio</span>
+                <input type="text" id="settingsBio" placeholder="Write something..." style="padding: 8px; background: var(--bg-tertiary); border: 2px solid var(--border-color); border-radius: 8px; color: var(--text-primary);">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Preferences</h3>
+            <div class="settings-item">
+                <span>Dark Mode</span>
+                <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode()"></div>
+            </div>
+            <div class="settings-item">
+                <span>Notifications</span>
+                <div class="toggle-switch" id="notificationsToggle" onclick="toggleNotifications()"></div>
+            </div>
+            <div class="settings-item">
+                <span>Sound Effects</span>
+                <div class="toggle-switch" id="soundToggle" onclick="toggleSound()"></div>
+            </div>
+            <div class="settings-item">
+                <span>Read Receipts</span>
+                <div class="toggle-switch" id="readReceiptsToggle" onclick="toggleReadReceipts()"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Privacy</h3>
+            <div class="settings-item">
+                <span>Show Last Seen</span>
+                <div class="toggle-switch" id="lastSeenToggle" onclick="toggleLastSeen()"></div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <h3>Data</h3>
+            <button type="button" onclick="clearChatHistory()" style="width: 100%; padding: 12px; background: var(--accent-danger); color: white; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 10px;">Clear Chat History</button>
+            <button type="button" onclick="exportData()" style="width: 100%; padding: 12px; background: var(--accent-success); color: white; border: none; border-radius: 8px; cursor: pointer;">Export Data</button>
+            <button type="button" onclick="importData()" style="width: 100%; padding: 12px; background: var(--accent-info); color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;">Import Data</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== NOTE ABOUT "SECURITY" ====================
+        // Browser code cannot be made uneditable/unchangeable by viewers.
+        // This is only a light warning and will never self-destruct the app.
+
+
+        // ==================== PERFORMANCE/MAINTAINABILITY HELPERS ====================
+        const $ = (id) => document.getElementById(id);
+        const qs = (sel, root = document) => root.querySelector(sel);
+        const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+const escapeHTML = (str) => String(str)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+
+        // Turn this ON only if you *really* want to annoy power-users.
+        // (It also breaks accessibility tooling and standard browser behavior.)
+        const ENABLE_RESTRICTIONS = false;
+
+        (function softIntegrityWarning() {
+            const monitor = document.getElementById('integrity-monitor');
+            if (!monitor) return;
+
+            const requiredIds = ['authContainer', 'appContainer', 'loginForm'];
+            const missing = requiredIds.filter(id => !document.getElementById(id));
+
+            if (missing.length) {
+                monitor.style.display = 'block';
+                monitor.innerHTML =
+                    `⚠️ Some required UI elements are missing: <b>${missing.join(', ')}</b>.<br>` +
+                    `This page may be an incomplete copy.`;
+            }
+        })()
+;
+
+        // ANTI-DEVTOOLS - Detect and block inspection
+        if (ENABLE_RESTRICTIONS) (function() {
+            const devtools = {
+                isOpen: false,
+                orientation: undefined
+            };
+            
+            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                    (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+                    (e.ctrlKey && e.key === 'U') ||
+                    (false)) {
+                    e.preventDefault();
+                    showNotification('🔒 Developer tools are disabled', 'error');
+                    return false;
+                }
+            });
+            
+            // Detect right-click
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showNotification('🔒 Right-click is disabled', 'error');
+                return false;
+            });
+            
+            // Detect view source
+            window.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                    showNotification('🔒 View Source is disabled', 'error');
+                }
+            });
+            
+            // Console warning
+            console.log('%c🔒 PROTECTED CODE - DO NOT MODIFY', 'color: red; font-size: 20px; font-weight: bold;');
+            console.log('%cUnauthorized modification will result in automatic lockdown', 'color: orange; font-size: 14px;');
+        })();
+
+        // Forbidden usernames
+        const FORBIDDEN_USERNAMES = [
+            'popcat', 'popcat1', 'popcat2', 'popcat123', 'popcat_',
+            'guest', 'user', 'anonymous', 'anon', 'unknown',
+            'test', 'testuser', 'demo', 'demouser'
+        ];
+
+        // Profanity list for 9-12 mode
+        const PROFANITY_LIST = [
+            'fuck', 'shit', 'ass', 'bitch', 'cunt', 'dick', 'pussy',
+            'fucking', 'shitting', 'asshole', 'bastard', 'damn', 'hell'
+        ];
+
+        // ==================== DATE SETUP ====================
+        const CURRENT_DATE = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        $('currentDate').innerText = `📅 ${CURRENT_DATE}`;
+        $('authDate').innerText = CURRENT_DATE;
+
+        // Friend code input: digits only (6 max)
+        document.addEventListener('input', (e) => {
+            if (e.target && e.target.id === 'friendCodeInput') {
+                e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+            }
+        });
+
+
+        // ==================== PERSISTENT STORAGE KEY ====================
+        const STORAGE_KEY = 'friendmail_persistent_data_v8';
+
+        // ==================== GENERATE RANDOM FRIEND CODE ====================
+        function generateFriendCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return code;
+        }
+
+        // ==================== VALIDATE REAL NAME ====================
+        function isValidRealName(name) {
+            if (!name || name.trim().length < 2) return false;
+            if (!/^[A-Za-z\s]+$/.test(name)) return false;
+            const lowerName = name.toLowerCase().trim();
+            if (FORBIDDEN_USERNAMES.includes(lowerName)) return false;
+            if (name.length > 30) return false;
+            return true;
+        }
+
+        // ==================== FILTER PROFANITY ====================
+        function filterProfanity(text) {
+            if (!text) return text;
+            
+            let filtered = text;
+            PROFANITY_LIST.forEach(word => {
+                const regex = new RegExp(word, 'gi');
+                filtered = filtered.replace(regex, '*'.repeat(word.length));
+            });
+            return filtered;
+        }
+
+        // ==================== CHECK AGE MODE ====================
+        let currentAgeMode = '13';
+
+        function setAgeMode(mode) {
+            currentAgeMode = mode;
+            document.body.classList.remove('age-13-mode', 'age-9-mode');
+            document.body.classList.add(mode === '13' ? 'age-13-mode' : 'age-9-mode');
+            
+            if (Database.settings) {
+                Database.settings.ageMode = mode;
+                saveDatabase();
+            }
+        }
+
+        // ==================== PERSISTENT DATABASE ====================
+        const Database = (() => {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    console.log('✅ Loaded persistent data');
+                    return parsed;
+                }
+            } catch (e) {
+                console.error('Error loading storage:', e);
+            }
+
+            return {
+                users: [
+                    { id: 1, name: 'Alice Smith', role: 'user', ageMode: '13', avatar: 'A', bio: '', status: 'offline', lastSeen: null, friendCode: generateFriendCode(), joined: new Date().toISOString() },
+                    { id: 2, name: 'Bob Johnson', role: 'user', ageMode: '13', avatar: 'B', bio: '', status: 'offline', lastSeen: null, friendCode: generateFriendCode(), joined: new Date().toISOString() },
+                    { id: 3, name: 'Charlie Brown', role: 'user', ageMode: '9', avatar: 'C', bio: '', status: 'offline', lastSeen: null, friendCode: generateFriendCode(), joined: new Date().toISOString() },
+                    { id: 4, name: 'Moderator One', role: 'mod', ageMode: '13', avatar: 'M', bio: '', status: 'offline', lastSeen: null, friendCode: generateFriendCode(), joined: new Date().toISOString() },
+                    { id: 5, name: 'Logs Viewer', role: 'logs', ageMode: '13', avatar: 'L', bio: '', status: 'offline', lastSeen: null, friendCode: generateFriendCode(), joined: new Date().toISOString() }
+                ],
+                friendships: [],
+                friendRequests: [],
+                groups: {
+                    'group_general': {
+                        id: 'group_general',
+                        name: 'General Chat',
+                        members: [],
+                        admin: null,
+                        icon: '👥',
+                        type: 'public',
+                        created: CURRENT_DATE
+                    },
+                    'group_gaming': {
+                        id: 'group_gaming',
+                        name: 'Gaming',
+                        members: [],
+                        admin: null,
+                        icon: '🎮',
+                        type: 'public',
+                        created: CURRENT_DATE
+                    },
+                    'group_mods': {
+                        id: 'group_mods',
+                        name: '🔒 Moderators Only',
+                        members: [],
+                        admin: null,
+                        icon: '🛡️',
+                        type: 'mod-only',
+                        created: CURRENT_DATE
+                    }
+                },
+                userGroups: {},
+                messages: {},
+                messageLogs: [],
+                bannedUsers: [],
+                bannedHistory: [],
+                kickedUsers: {},
+                logs: [],
+                pinnedChats: [],
+                messageCount: 0,
+                settings: {
+                    darkMode: true,
+                    notifications: true,
+                    sound: true,
+                    readReceipts: true,
+                    onlineStatus: true,
+                    lastSeen: true,
+                    profanityFilter: true,
+                    ageMode: '13'
+                },
+                nextId: { user: 6, message: 1 }
+            };
+        })();
+
+        // ==================== SAVE DATABASE ====================
+        function saveDatabase() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(Database));
+            } catch (e) {
+                console.error('Error saving database:', e);
+            }
+        }
+
+        setInterval(saveDatabase, 10000);
+        window.addEventListener('beforeunload', saveDatabase);
+
+        // ==================== DATABASE HELPERS ====================
+        function findUserByName(name) {
+            return Database.users.find(u => u.name.toLowerCase() === name.toLowerCase());
+        }
+
+        function findUserById(id) {
+            return Database.users.find(u => u.id === id);
+        }
+
+        function findUserByFriendCode(code) {
+            return Database.users.find(u => u.friendCode === code.toUpperCase());
+        }
+
+        function isUserBanned(username) {
+            return Database.bannedUsers.includes(username);
+        }
+
+        function isUserKicked(userId) {
+            if (!Database.kickedUsers[userId]) return false;
+            if (Date.now() - Database.kickedUsers[userId] > 300000) {
+                delete Database.kickedUsers[userId];
+                saveDatabase();
+                return false;
+            }
+            return true;
+        }
+
+        function getFriends(userId) {
+            const accepted = Database.friendships
+                .filter(f => (f.userId === userId || f.friendId === userId) && f.status === 'accepted')
+                .map(f => f.userId === userId ? f.friendId : f.userId);
+            return Database.users.filter(u => accepted.includes(u.id) && !isUserBanned(u.name));
+        }
+
+        function getFriendRequests(userId) {
+            return Database.friendRequests
+                .filter(r => r.toUserId === userId)
+                .map(r => ({
+                    ...r,
+                    fromUser: findUserById(r.fromUserId)
+                }));
+        }
+
+        function getPendingRequestsSent(userId) {
+            return Database.friendRequests.filter(r => r.fromUserId === userId);
+        }
+
+        function sendFriendRequest(fromUserId, toUserId) {
+            const toUser = findUserById(toUserId);
+            if (!toUser) return { success: false, error: 'User not found' };
+            if (toUser.id === fromUserId) return { success: false, error: 'Cannot add yourself' };
+            if (isUserBanned(toUser.name)) return { success: false, error: 'This user is banned' };
+            if (isUserKicked(toUser.id)) return { success: false, error: 'This user has been kicked' };
+
+            // Check if already friends
+            const existingFriendship = Database.friendships.find(f => 
+                (f.userId === fromUserId && f.friendId === toUser.id) ||
+                (f.userId === toUser.id && f.friendId === fromUserId)
+            );
+            
+            if (existingFriendship) {
+                if (existingFriendship.status === 'accepted') {
+                    return { success: false, error: 'Already friends' };
+                }
+                if (existingFriendship.status === 'pending') {
+                    return { success: false, error: 'Friend request already pending' };
+                }
+            }
+
+            // Check if request already exists
+            const existingRequest = Database.friendRequests.find(r => 
+                (r.fromUserId === fromUserId && r.toUserId === toUser.id) ||
+                (r.fromUserId === toUser.id && r.toUserId === fromUserId)
+            );
+            
+            if (existingRequest) {
+                return { success: false, error: 'Request already pending' };
+            }
+
+            // Add friend request
+            Database.friendRequests.push({
+                fromUserId,
+                toUserId: toUser.id,
+                timestamp: new Date().toISOString()
+            });
+
+            // Also add to friendships as pending
+            Database.friendships.push({
+                userId: fromUserId,
+                friendId: toUser.id,
+                status: 'pending'
+            });
+
+            addLog(`Friend request sent from ${findUserById(fromUserId)?.name} to ${toUser.name}`, fromUserId, 'info');
+            saveDatabase();
+            return { success: true, user: toUser };
+        }
+
+        function acceptFriendRequest(userId, fromUserId) {
+            // Remove from requests
+            Database.friendRequests = Database.friendRequests.filter(r => 
+                !(r.fromUserId === fromUserId && r.toUserId === userId)
+            );
+
+            // Update friendships
+            Database.friendships = Database.friendships.map(f => {
+                if ((f.userId === fromUserId && f.friendId === userId) || 
+                    (f.userId === userId && f.friendId === fromUserId)) {
+                    return { ...f, status: 'accepted' };
+                }
+                return f;
+            });
+
+            // If no friendship exists, create one
+            if (!Database.friendships.find(f => 
+                (f.userId === fromUserId && f.friendId === userId) || 
+                (f.userId === userId && f.friendId === fromUserId))) {
+                Database.friendships.push({
+                    userId: fromUserId,
+                    friendId: userId,
+                    status: 'accepted'
+                });
+            }
+
+            addLog(`Friend request accepted`, userId, 'success');
+            saveDatabase();
+            return true;
+        }
+
+        function declineFriendRequest(userId, fromUserId) {
+            // Remove from requests
+            Database.friendRequests = Database.friendRequests.filter(r => 
+                !(r.fromUserId === fromUserId && r.toUserId === userId)
+            );
+
+            // Remove pending friendship
+            Database.friendships = Database.friendships.filter(f => 
+                !((f.userId === fromUserId && f.friendId === userId) || 
+                  (f.userId === userId && f.friendId === fromUserId))
+            );
+
+            addLog(`Friend request declined`, userId, 'info');
+            saveDatabase();
+            return true;
+        }
+
+        function cancelFriendRequest(userId, toUserId) {
+            // Remove from requests
+            Database.friendRequests = Database.friendRequests.filter(r => 
+                !(r.fromUserId === userId && r.toUserId === toUserId)
+            );
+
+            // Remove pending friendship
+            Database.friendships = Database.friendships.filter(f => 
+                !((f.userId === userId && f.friendId === toUserId) || 
+                  (f.userId === toUserId && f.friendId === userId))
+            );
+
+            saveDatabase();
+            return true;
+        }
+
+        function addLog(message, userId = null, type = 'info') {
+            const logEntry = {
+                timestamp: new Date().toLocaleTimeString(),
+                date: CURRENT_DATE,
+                message,
+                type,
+                userId
+            };
+            Database.logs.unshift(logEntry);
+            if (Database.logs.length > 100) Database.logs.pop();
+            saveDatabase();
+        }
+
+        function addMessageLog(message, sender, recipient, type = 'private') {
+            const logEntry = {
+                id: Database.nextId.message++,
+                timestamp: new Date().toLocaleTimeString(),
+                date: CURRENT_DATE,
+                sender: sender,
+                recipient: recipient,
+                content: message.text,
+                type: type
+            };
+            Database.messageLogs.unshift(logEntry);
+            if (Database.messageLogs.length > 200) Database.messageLogs.pop();
+            saveDatabase();
+        }
+
+        // ==================== BAN FUNCTIONS ====================
+        function banUserPermanently(username, moderatorId, reason = 'No reason provided') {
+            if (!Database.bannedUsers.includes(username)) {
+                Database.bannedUsers.push(username);
+                Database.bannedHistory.push({
+                    username,
+                    bannedBy: findUserById(moderatorId)?.name || 'Unknown',
+                    reason,
+                    date: CURRENT_DATE,
+                    time: new Date().toLocaleTimeString(),
+                    type: 'permanent'
+                });
+
+                const user = findUserByName(username);
+                if (user && connections[user.id]) {
+                    delete connections[user.id];
+                }
+
+                addLog(`PERMANENT BAN: ${username} (${reason})`, moderatorId, 'danger');
+                saveDatabase();
+                return true;
+            }
+            return false;
+        }
+
+        function unbanUser(username, moderatorId) {
+            const index = Database.bannedUsers.indexOf(username);
+            if (index !== -1) {
+                Database.bannedUsers.splice(index, 1);
+                addLog(`UNBANNED: ${username}`, moderatorId, 'success');
+                saveDatabase();
+                return true;
+            }
+            return false;
+        }
+
+        function kickUser(userId, moderatorId, duration = 5) {
+            Database.kickedUsers[userId] = Date.now();
+            if (connections[userId]) {
+                delete connections[userId];
+            }
+            const user = findUserById(userId);
+            addLog(`KICKED: ${user?.name || 'Unknown'} (${duration} min)`, moderatorId, 'warning');
+            saveDatabase();
+            
+            setTimeout(() => {
+                delete Database.kickedUsers[userId];
+                saveDatabase();
+                addLog(`Kick expired for ${user?.name || 'Unknown'}`, null, 'info');
+            }, duration * 60 * 1000);
+        }
+
+        // ==================== STATE MANAGEMENT ====================
+        let peer = null;
+        let currentUser = null;
+        let connections = {};
+        let selectedFriendId = null;
+        let selectedGroupId = null;
+        let typingTimeout = null;
+        let callInterval = null;
+        let callSeconds = 0;
+        let emojiPickerVisible = false;
+        let mediaStream = null;
+        let screenStream = null;
+        let peerConnection = null;
+        let callActive = false;
+        let isMuted = false;
+        let isVideoEnabled = true;
+        let isScreenSharing = false;
+        
+        const ACCESS_CODES = {
+            USER: 'USER-2026',
+            MOD: 'mod2026power',
+            LOGS: 'watch2026logs'
+        };
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loading = $('loadingScreen');
+                if (loading) loading.style.display = 'none';
+            }, 2000);
+
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            loadSettings();
+            
+            setInterval(() => {
+                Object.keys(Database.kickedUsers || {}).forEach(userId => {
+                    if (Date.now() - Database.kickedUsers[userId] > 300000) {
+                        delete Database.kickedUsers[userId];
+                        saveDatabase();
+                    }
+                });
+            }, 60000);
+        });
+
+        function loadSettings() {
+            if (!Database.settings) {
+                Database.settings = {
+                    darkMode: true,
+                    notifications: true,
+                    sound: true,
+                    readReceipts: true,
+                    onlineStatus: true,
+                    lastSeen: true,
+                    profanityFilter: true,
+                    ageMode: '13'
+                };
+            }
+
+            setAgeMode(Database.settings.ageMode || '13');
+            document.getElementById('settingsAgeMode').value = Database.settings.ageMode || '13';
+
+            if (!Database.settings.darkMode) {
+                document.body.classList.add('light-mode');
+                document.getElementById('darkModeToggle').classList.remove('active');
+            } else {
+                document.getElementById('darkModeToggle').classList.add('active');
+            }
+            
+            document.getElementById('profanityToggle').classList.toggle('active', Database.settings.profanityFilter);
+            
+            const toggleIds = ['notificationsToggle', 'soundToggle', 'readReceiptsToggle', 'statusToggle', 'lastSeenToggle'];
+            toggleIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const setting = id.replace('Toggle', '');
+                    el.classList.toggle('active', Database.settings[setting]);
+                }
+            });
+        }
+
+        window.changeAgeMode = function(mode) {
+            setAgeMode(mode);
+            if (Database.settings) {
+                Database.settings.ageMode = mode;
+                saveDatabase();
+            }
+            showNotification(`Age mode changed to ${mode === '13' ? '13+' : '9-12'}`, 'info');
+        };
+
+        window.switchCodeTab = function(tab, ev) {
+            document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+            (ev || window.event)?.currentTarget.classList.add('active');
+
+            document.getElementById('userCodeBox').style.display = 'none';
+            document.getElementById('modPanel').style.display = 'none';
+            document.getElementById('logsPanel').style.display = 'none';
+            
+            if (tab === 'user') {
+                document.getElementById('userCodeBox').style.display = 'block';
+            } else if (tab === 'mod') {
+                document.getElementById('modPanel').style.display = 'block';
+            } else if (tab === 'logs') {
+                document.getElementById('logsPanel').style.display = 'block';
+            }
+        };
+
+        window.unlockMod = function() {
+            const password = document.getElementById('modPassword').value;
+            if (password === ACCESS_CODES.MOD) {
+                sessionStorage.setItem('mod_unlocked', 'true');
+                document.getElementById('modPassword').value = '';
+                showNotification('✅ Mod access unlocked!', 'success');
+            } else {
+                showNotification('❌ Incorrect moderator password', 'error');
+            }
+        };
+
+        window.unlockLogs = function() {
+            const password = document.getElementById('logsPassword').value;
+            if (password === ACCESS_CODES.LOGS) {
+                sessionStorage.setItem('logs_unlocked', 'true');
+                document.getElementById('logsPassword').value = '';
+                showNotification('✅ Logs access unlocked!', 'success');
+            } else {
+                showNotification('❌ Incorrect logs password', 'error');
+            }
+        };
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const ageMode = document.getElementById('ageMode').value;
+            const accessInput = document.getElementById('accessCode').value.trim();
+            
+            if (!username) {
+                showNotification('Please enter your name', 'error');
+                return;
+            }
+
+            // Simple name validation
+            if (FORBIDDEN_USERNAMES.includes(username.toLowerCase())) {
+                showNotification('Please use a real name', 'error');
+                return;
+            }
+
+            if (isUserBanned(username)) {
+                showBannedMessage(username);
+                addLog(`Banned user attempted login: ${username}`, null, 'danger');
+                return;
+            }
+
+            let userRole = 'user';
+            
+            if (sessionStorage.getItem('mod_unlocked') === 'true') {
+                userRole = 'mod';
+                sessionStorage.removeItem('mod_unlocked');
+            } else if (sessionStorage.getItem('logs_unlocked') === 'true') {
+                userRole = 'logs';
+                sessionStorage.removeItem('logs_unlocked');
+            } else if (accessInput === ACCESS_CODES.MOD) {
+                userRole = 'mod';
+            } else if (accessInput === ACCESS_CODES.LOGS) {
+                userRole = 'logs';
+            } else if (accessInput !== ACCESS_CODES.USER) {
+                showNotification('Invalid access code', 'error');
+                return;
+            }
+
+            let user = findUserByName(username);
+            
+            if (user && user.role !== userRole) {
+                user.role = userRole;
+                addLog(`User role updated: ${username} (${userRole})`, user.id, 'info');
+            }
+            
+            if (!user) {
+                user = {
+                    id: Database.nextId.user++,
+                    name: username,
+                    role: userRole,
+                    ageMode: ageMode,
+                    avatar: username.charAt(0).toUpperCase(),
+                    bio: '',
+                    status: 'online',
+                    lastSeen: new Date().toISOString(),
+                    friendCode: generateFriendCode(),
+                    joined: new Date().toISOString()
+                };
+                Database.users.push(user);
+                addLog(`New user registered: ${username} (${userRole})`, user.id, 'info');
+            } else {
+                if (isUserKicked(user.id)) {
+                    showNotification('You have been kicked. Please wait 5 minutes before trying again.', 'error');
+                    return;
+                }
+                
+                user.status = 'online';
+                user.lastSeen = new Date().toISOString();
+                user.ageMode = ageMode;
+            }
+
+            currentUser = user;
+            setAgeMode(user.ageMode || '13');
+            sessionStorage.setItem('lastUser', JSON.stringify({ name: user.name }));
+
+            if (user.role === 'mod') {
+                if (!Database.userGroups[user.id]) Database.userGroups[user.id] = [];
+                if (!Database.userGroups[user.id].includes('group_mods')) {
+                    Database.userGroups[user.id].push('group_mods');
+                    if (!Database.groups.group_mods.members) Database.groups.group_mods.members = [];
+                    if (!Database.groups.group_mods.members.includes(user.id)) {
+                        Database.groups.group_mods.members.push(user.id);
+                    }
+                }
+            }
+
+            addLog(`${username} (${user.role}) logged in`, user.id, 'info');
+            saveDatabase();
+            initializeApp();
+        }
+
+        function showBannedMessage(username) {
+            const banMessage = document.createElement('div');
+            banMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #8b0000;
+                color: white;
+                padding: 40px;
+                border-radius: 20px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                animation: pulse 2s infinite;
+            `;
+            
+            const banHistory = Database.bannedHistory.find(b => b.username === username);
+            
+            banMessage.innerHTML = `
+                <h1 style="font-size: 3em; margin-bottom: 20px;">🚫 PERMANENTLY BANNED</h1>
+                <p style="font-size: 1.5em; margin-bottom: 10px;">User "${username}" has been permanently banned.</p>
+                <p style="font-size: 1.2em; margin-bottom: 20px;">${banHistory?.reason || 'No reason provided'}</p>
+                <p style="font-size: 1em; margin-bottom: 10px;">Banned by: ${banHistory?.bannedBy || 'Unknown'}</p>
+                <p style="font-size: 0.9em; opacity: 0.8;">This ban is permanent and cannot be bypassed.</p>
+                <button type="button" onclick="this.parentElement.remove()" style="margin-top: 20px; padding: 10px 30px; background: white; color: #8b0000; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">OK</button>
+            `;
+            document.body.appendChild(banMessage);
+        }
+
+        function initializeApp() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
+            
+            document.getElementById('userAvatar').innerText = currentUser.avatar;
+            document.getElementById('userDisplayName').innerText = currentUser.name;
+            document.getElementById('userFriendCode').innerText = currentUser.friendCode;
+            
+            let badgeClass = 'badge-user';
+            if (currentUser.role === 'mod') badgeClass = 'badge-mod';
+            if (currentUser.role === 'logs') badgeClass = 'badge-logs';
+            
+            document.getElementById('userBadge').innerText = currentUser.role.toUpperCase();
+            document.getElementById('userBadge').className = `user-badge ${badgeClass}`;
+            document.getElementById('welcomeRole').innerText = currentUser.role.toUpperCase();
+
+            connections[currentUser.id] = currentUser;
+
+            initializePeer();
+            setupTabs();
+            setupSearch();
+            
+            showNotification(`Welcome ${currentUser.name}!`, 'success');
+        }
+
+        function initializePeer() {
+            const peerId = currentUser.role + '_' + currentUser.id + '_' + Math.random().toString(36).substring(2, 7);
+            
+            peer = new Peer(peerId, {
+                config: {
+                    'iceServers': [
+                        { urls: 'stun:stun.l.google.com:19302' },
+                        { urls: 'stun:stun1.l.google.com:19302' },
+                        { urls: 'stun:stun2.l.google.com:19302' },
+                        { urls: 'stun:stun3.l.google.com:19302' },
+                        { urls: 'stun:stun4.l.google.com:19302' }
+                    ]
+                }
+            });
+
+            peer.on('open', (id) => {
+                document.getElementById('myPeerId').value = id;
+                document.getElementById('welcomePeerId').innerText = id;
+                document.getElementById('connectionStatus').innerText = 'Connected';
+            });
+
+            peer.on('connection', (conn) => {
+                conn.on('data', (data) => {
+                    if (data.type === 'message') {
+                        handleIncomingMessage(conn.peer, data);
+                    } else if (data.type === 'typing') {
+                        const friendId = parseInt(conn.peer.split('_')[1]);
+                        if (selectedFriendId === friendId) {
+                            showTypingIndicator(data.userName);
+                        }
+                    }
+                });
+            });
+
+            peer.on('call', (call) => {
+                call.answer(mediaStream);
+                
+                call.on('stream', (remoteStream) => {
+                    const remoteVideo = document.getElementById('remoteVideo');
+                    remoteVideo.srcObject = remoteStream;
+                    document.getElementById('remoteVideoLabel').innerText = 'Friend';
+                });
+                
+                call.on('close', () => {
+                    endCall();
+                });
+            });
+
+            peer.on('error', (err) => {
+                console.error('Peer error:', err);
+            });
+        }
+
+        // ==================== FRIEND CODE FUNCTIONS ====================
+        window.copyFriendCode = function() {
+            navigator.clipboard.writeText(currentUser.friendCode).then(() => {
+                showNotification('Friend code copied!', 'success');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = currentUser.friendCode;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showNotification('Friend code copied!', 'success');
+            });
+        };
+
+        window.addFriendByCode = function() {
+            const code = document.getElementById('friendCodeInput').value.trim().toUpperCase();
+            if (!code) {
+                showNotification('Please enter a friend code', 'error');
+                return;
+            }
+
+            if (code === currentUser.friendCode) {
+                showNotification('You cannot add yourself', 'error');
+                return;
+            }
+
+            const user = findUserByFriendCode(code);
+            if (!user) {
+                showNotification('Invalid friend code', 'error');
+                return;
+            }
+
+            if (isUserBanned(user.name)) {
+                showNotification('This user is banned', 'error');
+                return;
+            }
+
+            if (isUserKicked(user.id)) {
+                showNotification('This user has been kicked', 'error');
+                return;
+            }
+
+            // Check if already friends
+            const existingFriendship = Database.friendships.find(f => 
+                (f.userId === currentUser.id && f.friendId === user.id) ||
+                (f.userId === user.id && f.friendId === currentUser.id)
+            );
+
+            if (existingFriendship) {
+                if (existingFriendship.status === 'accepted') {
+                    showNotification(`You are already friends with ${user.name}!`, 'info');
+                    return;
+                } else if (existingFriendship.status === 'pending') {
+                    // Check if pending request is from current user or to current user
+                    const pendingRequest = Database.friendRequests.find(r => 
+                        (r.fromUserId === currentUser.id && r.toUserId === user.id) ||
+                        (r.fromUserId === user.id && r.toUserId === currentUser.id)
+                    );
+                    
+                    if (pendingRequest && pendingRequest.fromUserId === user.id) {
+                        // If the other user sent the request, accept it
+                        acceptFriendRequest(currentUser.id, user.id);
+                        showNotification(`Friend request from ${user.name} accepted!`, 'success');
+                        updateFriendsList();
+                        document.getElementById('friendCodeInput').value = '';
+                        return;
+                    } else {
+                        showNotification(`Friend request already pending to ${user.name}`, 'info');
+                        return;
+                    }
+                }
+            }
+
+            const result = sendFriendRequest(currentUser.id, user.id);
+            if (result.success) {
+                showNotification(`Friend request sent to ${user.name}!`, 'success');
+                document.getElementById('friendCodeInput').value = '';
+                updateFriendsList();
+            } else {
+                showNotification(result.error, 'error');
+            }
+        };
+
+        // ==================== SEARCH ====================
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                const results = Database.users.filter(u => 
+                    u.id !== currentUser.id && 
+                    u.name.toLowerCase().includes(query) &&
+                    !isUserBanned(u.name)
+                );
+
+                if (results.length === 0) {
+                    searchResults.style.display = 'block';
+                    searchResults.innerHTML = '<div style="padding: 10px; color: var(--text-secondary);">No users found</div>';
+                    return;
+                }
+
+                searchResults.style.display = 'block';
+                searchResults.innerHTML = results.map(user => {
+                    // Check if already friends
+                    const existingFriendship = Database.friendships.find(f => 
+                        ((f.userId === currentUser.id && f.friendId === user.id) ||
+                         (f.userId === user.id && f.friendId === currentUser.id))
+                    );
+                    
+                    const isFriend = existingFriendship && existingFriendship.status === 'accepted';
+                    const hasPendingFromMe = Database.friendRequests.some(r => 
+                        r.fromUserId === currentUser.id && r.toUserId === user.id
+                    );
+                    const hasPendingToMe = Database.friendRequests.some(r => 
+                        r.fromUserId === user.id && r.toUserId === currentUser.id
+                    );
+
+                    let buttonHtml = '';
+                    if (isFriend) {
+                        buttonHtml = '<button type="button" class="join-btn" disabled style="opacity:0.5; background: var(--accent-success);">✓ Friends</button>';
+                    } else if (hasPendingToMe) {
+                        buttonHtml = `
+                            <div style="display: flex; gap: 5px;">
+                                <button type="button" class="accept-btn" onclick="acceptRequest(${user.id}, event)">Accept</button>
+                                <button type="button" class="decline-btn" onclick="declineRequest(${user.id}, event)">Decline</button>
+                            </div>
+                        `;
+                    } else if (hasPendingFromMe) {
+                        buttonHtml = '<button type="button" class="join-btn" disabled style="opacity:0.5; background: var(--accent-warning);">⏳ Pending</button>';
+                    } else {
+                        buttonHtml = `<button type="button" class="add-friend-btn" onclick="addFriendByName('${user.name}', event)">Add Friend</button>`;
+                    }
+
+                    return `
+                        <div class="user-search-item" onclick="event.stopPropagation()">
+                            <div class="friend-avatar">${user.avatar}</div>
+                            <div class="friend-info">
+                                <div class="friend-name">${user.name}</div>
+                                <div class="friend-status">Mode: ${user.ageMode === '13' ? '13+' : '9-12'}</div>
+                            </div>
+                            ${buttonHtml}
+                        </div>
+                    `;
+                }).join('');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        window.addFriendByName = function(username, event) {
+            if (event) event.stopPropagation();
+            const user = findUserByName(username);
+            if (user) {
+                // Check if the other user already sent a request to us
+                const pendingRequest = Database.friendRequests.find(r => 
+                    r.fromUserId === user.id && r.toUserId === currentUser.id
+                );
+                
+                if (pendingRequest) {
+                    // Accept the pending request
+                    acceptFriendRequest(currentUser.id, user.id);
+                    showNotification(`Friend request from ${username} accepted!`, 'success');
+                } else {
+                    const result = sendFriendRequest(currentUser.id, user.id);
+                    if (result.success) {
+                        showNotification(`Friend request sent to ${username}!`, 'success');
+                    } else {
+                        showNotification(result.error, 'error');
+                        return;
+                    }
+                }
+                
+                document.getElementById('searchInput').value = '';
+                document.getElementById('searchResults').style.display = 'none';
+                updateFriendsList();
+            }
+        };
+
+        // ==================== TABS ====================
+        function setupTabs() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            let tabs = `
+                <button type="button" class="sidebar-tab active" onclick="switchSidebarTab('friends', event)">👥 Friends</button>
+                <button type="button" class="sidebar-tab" onclick="switchSidebarTab('groups', event)">👥 Groups</button>
+            `;
+
+            if (currentUser.role === 'mod') {
+                tabs += `<button type="button" class="sidebar-tab" onclick="switchSidebarTab('mod', event)">🛡️ Mod</button>`;
+            }
+
+            if (currentUser.role === 'logs') {
+                tabs += `<button type="button" class="sidebar-tab" onclick="switchSidebarTab('logs', event)">📋 Logs</button>`;
+            }
+
+            tabsContainer.innerHTML = tabs;
+            switchSidebarTab('friends');
+        }
+
+        window.switchSidebarTab = function(tab, ev) {
+            document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+            (ev || window.event)?.currentTarget.classList.add('active');
+
+            document.getElementById('friendsTab').style.display = 'none';
+            document.getElementById('groupsTab').style.display = 'none';
+            document.getElementById('modTab').style.display = 'none';
+            document.getElementById('logsTab').style.display = 'none';
+
+            if (tab === 'friends') {
+                document.getElementById('friendsTab').style.display = 'block';
+                updateFriendsList();
+            } else if (tab === 'groups') {
+                document.getElementById('groupsTab').style.display = 'block';
+                loadGroups();
+            } else if (tab === 'mod' && currentUser.role === 'mod') {
+                document.getElementById('modTab').style.display = 'block';
+                loadModPanel();
+            } else if (tab === 'logs' && currentUser.role === 'logs') {
+                document.getElementById('logsTab').style.display = 'block';
+                updateLogsPanel();
+            }
+        };
+
+        // ==================== FRIENDS ====================
+        function updateFriendsList() {
+            const friendsList = document.getElementById('friendsList');
+            const friends = getFriends(currentUser.id);
+            const pendingRequests = getFriendRequests(currentUser.id);
+            const pendingSent = getPendingRequestsSent(currentUser.id);
+
+            let html = '';
+
+            // Update pending requests badge
+            const pendingCount = pendingRequests.length;
+            const badge = document.getElementById('pendingRequestsCount');
+            if (badge) {
+                if (pendingCount > 0) {
+                    badge.style.display = 'inline-block';
+                    badge.innerText = pendingCount;
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            // Show pending requests received
+            if (pendingRequests.length > 0) {
+                html += '<div style="color: var(--accent-warning); margin: 10px 0;">📨 Friend Requests</div>';
+                pendingRequests.forEach(req => {
+                    html += `
+                        <div class="friend-item pending-request-item" onclick="selectFriend(${req.fromUser.id})">
+                            <div class="friend-avatar">${req.fromUser.avatar}</div>
+                            <div class="friend-info">
+                                <div class="friend-name">${req.fromUser.name}</div>
+                                <div class="friend-status">Wants to be friends</div>
+                            </div>
+                            <div style="display: flex; gap: 5px;">
+                                <button type="button" class="accept-btn" onclick="acceptRequest(${req.fromUserId}, event)">Accept</button>
+                                <button type="button" class="decline-btn" onclick="declineRequest(${req.fromUserId}, event)">Decline</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Show pending requests sent
+            if (pendingSent.length > 0) {
+                html += '<div style="color: var(--accent-info); margin: 10px 0;">⏳ Pending Requests Sent</div>';
+                pendingSent.forEach(req => {
+                    const user = findUserById(req.toUserId);
+                    if (user) {
+                        html += `
+                            <div class="friend-item" style="opacity: 0.7;">
+                                <div class="friend-avatar">${user.avatar}</div>
+                                <div class="friend-info">
+                                    <div class="friend-name">${user.name}</div>
+                                    <div class="friend-status">Request pending</div>
+                                </div>
+                                <button type="button" class="decline-btn" onclick="cancelRequest(${user.id}, event)">Cancel</button>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            // Show accepted friends
+            if (friends.length > 0) {
+                html += '<div style="color: var(--accent-success); margin: 10px 0;">👥 My Friends</div>';
+                
+                let onlineCount = 0;
+                friends.forEach(friend => {
+                    const isOnline = connections[friend.id] ? true : false;
+                    const isKicked = isUserKicked(friend.id);
+                    if (isOnline && !isKicked) onlineCount++;
+                    
+                    html += `
+                        <div class="friend-item ${selectedFriendId === friend.id ? 'selected' : ''}" onclick="selectFriend(${friend.id})">
+                            <div class="friend-avatar">
+                                ${friend.avatar}
+                                ${isOnline && !isKicked ? '<span class="online-indicator"></span>' : ''}
+                            </div>
+                            <div class="friend-info">
+                                <div class="friend-name">${friend.name}</div>
+                                <div class="friend-status">${isKicked ? 'Kicked' : (isOnline ? 'Online' : 'Offline')}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('onlineCount').innerText = `${onlineCount} online`;
+            }
+
+            if (html === '') {
+                html = '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">No friends yet<br><small>Enter a friend code above or search for users to add them!</small></div>';
+                document.getElementById('onlineCount').innerText = '0 online';
+            }
+
+            friendsList.innerHTML = html;
+        }
+
+        window.acceptRequest = function(fromUserId, event) {
+            if (event) event.stopPropagation();
+            if (acceptFriendRequest(currentUser.id, fromUserId)) {
+                showNotification('Friend request accepted!', 'success');
+                updateFriendsList();
+            }
+        };
+
+        window.declineRequest = function(fromUserId, event) {
+            if (event) event.stopPropagation();
+            if (declineFriendRequest(currentUser.id, fromUserId)) {
+                showNotification('Friend request declined', 'info');
+                updateFriendsList();
+            }
+        };
+
+        window.cancelRequest = function(toUserId, event) {
+            if (event) event.stopPropagation();
+            
+            if (cancelFriendRequest(currentUser.id, toUserId)) {
+                showNotification('Friend request cancelled', 'info');
+                updateFriendsList();
+            }
+        };
+
+        window.selectFriend = function(friendId) {
+            if (isUserKicked(friendId)) {
+                showNotification('This user has been kicked and cannot be contacted', 'error');
+                return;
+            }
+
+            selectedFriendId = friendId;
+            selectedGroupId = null;
+            
+            const friend = findUserById(friendId);
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('chatHeader').style.display = 'flex';
+            document.getElementById('messageComposer').style.display = 'flex';
+            document.getElementById('chatTypeBadge').innerText = 'Private';
+            
+            // Fix: Use correct button IDs
+            const audioCallBtn = document.querySelector('.call-btn-audio');
+            const videoCallBtn = document.querySelector('.call-btn-video');
+            const screenShareBtn = document.querySelector('.screen-share');
+            
+            if (audioCallBtn) audioCallBtn.disabled = false;
+            if (videoCallBtn) videoCallBtn.disabled = false;
+            if (screenShareBtn) screenShareBtn.disabled = false;
+
+            document.getElementById('chatAvatar').innerText = friend.avatar;
+            document.getElementById('chatFriendName').innerText = friend.name;
+            document.getElementById('chatFriendStatus').innerText = connections[friendId] ? 'Online' : 'Offline';
+            
+            loadMessages(friendId);
+            updateFriendsList();
+        };
+
+        // ==================== MESSAGES ====================
+        function loadMessages(chatId) {
+            const container = document.getElementById('messagesContainer');
+            container.innerHTML = '';
+            
+            const messages = Database.messages[chatId] || [];
+            messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            
+            messages.forEach(msg => {
+                const direction = msg.senderId === currentUser.id ? 'sent' : 'received';
+                displayMessage(msg, direction);
+            });
+        }
+
+        window.sendMessage = function() {
+            if (currentUser.role === 'logs') {
+                showNotification('Logs role cannot send messages', 'error');
+                return;
+            }
+
+            const input = document.getElementById('messageInput');
+            let messageText = input.value.trim();
+            
+            if (!messageText) return;
+            
+            // Apply profanity filter if in 9-12 mode or filter is on
+            if (currentAgeMode === '9' || Database.settings?.profanityFilter) {
+                const filtered = filterProfanity(messageText);
+                if (filtered !== messageText) {
+                    showNotification('Message contained filtered content', 'warning');
+                    messageText = filtered;
+                }
+            }
+
+            const messageObj = {
+                id: Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+                text: messageText,
+                time: new Date().toLocaleTimeString(),
+                timestamp: new Date().toISOString(),
+                date: CURRENT_DATE,
+                sender: currentUser.name,
+                senderId: currentUser.id,
+                status: 'sent',
+                reactions: []
+            };
+
+            if (selectedFriendId) {
+                const friend = findUserById(selectedFriendId);
+                if (isUserKicked(selectedFriendId)) {
+                    showNotification('This user has been kicked', 'error');
+                    return;
+                }
+
+                messageObj.receiverId = selectedFriendId;
+                messageObj.type = 'private';
+                
+                if (!Database.messages[selectedFriendId]) Database.messages[selectedFriendId] = [];
+                Database.messages[selectedFriendId].push(messageObj);
+                displayMessage(messageObj, 'sent');
+                
+                // Add to message logs for logs role
+                addMessageLog(messageObj, currentUser.name, friend.name, 'private');
+                
+            } else if (selectedGroupId) {
+                const group = Database.groups[selectedGroupId];
+                if (group) {
+                    messageObj.groupId = selectedGroupId;
+                    messageObj.type = 'group';
+                    
+                    if (!Database.messages[selectedGroupId]) Database.messages[selectedGroupId] = [];
+                    Database.messages[selectedGroupId].push(messageObj);
+                    displayMessage(messageObj, 'sent', selectedGroupId);
+                    
+                    // Add to message logs for logs role
+                    addMessageLog(messageObj, currentUser.name, `Group: ${group.name}`, 'group');
+                }
+            } else {
+                return;
+            }
+
+            Database.messageCount = (Database.messageCount || 0) + 1;
+            input.value = '';
+            document.getElementById('sendBtn').disabled = true;
+            
+            addLog('Message sent', currentUser.id, 'info');
+            saveDatabase();
+        };
+
+        function displayMessage(message, direction, groupId = null) {
+            const container = document.getElementById('messagesContainer');
+
+            const time = message.time || new Date().toLocaleTimeString([], {
+                hour: '2-digit', minute: '2-digit'
+            });
+
+            // Escape user text first (prevents HTML/script injection), then linkify URLs.
+            const rawText = message.text || '';
+            const safeText = escapeHTML(rawText);
+
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            let messageContent = safeText.replace(urlRegex, (url) => {
+                const href = url;
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer">${href}</a>`;
+            });
+
+            if (message.image) {
+                const imgUrl = String(message.image);
+                const safeImgUrl = imgUrl.replaceAll("'", "%27").replaceAll('"', "%22");
+                messageContent = `<img src="${safeImgUrl}" class="message-image" alt="Shared image">`;
+            }
+
+            const statusIcon = message.status === 'sent' ? '✓' :
+                message.status === 'delivered' ? '✓✓' :
+                message.status === 'read' ? '👁️' : '';
+
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${direction}`;
+            messageEl.id = `msg_${message.id}`;
+
+            const senderHtml = groupId && direction === 'received'
+                ? `<div class="message-sender">${escapeHTML(message.sender || '')}</div>`
+                : '';
+
+            messageEl.innerHTML = `
+                ${senderHtml}
+                <div class="message-bubble">
+                    <div class="message-content">${messageContent}</div>
+                    <div class="message-actions">
+                        <button type="button" class="message-action" title="React" onclick="toggleReactionMenu('${message.id}')">😊</button>
+                        <button type="button" class="message-action" title="Copy" onclick="copyMessage('${message.id}')">📋</button>
+                    </div>
+                </div>
+                <div class="message-footer">
+                    <span>${time}</span>
+                    ${direction === 'sent' && Database.settings?.readReceipts !== false
+                        ? `<span class="message-status"><span class="status-icon ${escapeHTML(message.status || '')}">${statusIcon}</span></span>`
+                        : ''
+                    }
+                </div>
+                <div class="message-reactions" id="reactions_${message.id}"></div>
+            `;
+
+            container.appendChild(messageEl);
+            container.scrollTop = container.scrollHeight;
+
+            const img = messageEl.querySelector('img.message-image');
+            if (img) {
+                img.addEventListener('click', () => window.open(img.src, '_blank', 'noopener,noreferrer'));
+            }
+
+            if (Array.isArray(message.reactions) && message.reactions.length) {
+                renderReactions(message.id, message.reactions);
+            }
+        }
+
+        window.editMessage = function(messageId) {
+            const newText = prompt('Edit message:');
+            if (newText) {
+                const msgEl = document.getElementById(`msg_${messageId}`);
+                if (msgEl) {
+                    msgEl.querySelector('.message-content').textContent = newText;
+                    
+                    const chatId = selectedGroupId || selectedFriendId;
+                    const message = Database.messages[chatId]?.find(m => m.id === messageId);
+                    if (message) {
+                        message.text = newText;
+                        saveDatabase();
+                    }
+                }
+            }
+        };
+
+        window.deleteMessage = function(messageId) {
+            if (confirm('Delete this message?')) {
+                const msgEl = document.getElementById(`msg_${messageId}`);
+                if (msgEl) {
+                    msgEl.remove();
+                    
+                    const chatId = selectedGroupId || selectedFriendId;
+                    Database.messages[chatId] = Database.messages[chatId]?.filter(m => m.id !== messageId);
+                    saveDatabase();
+                }
+            }
+        };
+
+        window.addReaction = function(messageId, emoji) {
+            const reactionsEl = document.getElementById(`reactions_${messageId}`);
+            if (reactionsEl) {
+                const reactionSpan = document.createElement('span');
+                reactionSpan.className = 'reaction';
+                reactionSpan.innerHTML = emoji;
+                reactionSpan.onclick = () => addReaction(messageId, emoji);
+                reactionsEl.appendChild(reactionSpan);
+                saveDatabase();
+            }
+        };
+
+        // ==================== TYPING ====================
+        window.handleTyping = function() {
+            const input = document.getElementById('messageInput');
+            document.getElementById('sendBtn').disabled = !input.value.trim();
+
+            if (selectedFriendId) {
+                showTypingIndicator(currentUser.name);
+            }
+        };
+
+        function showTypingIndicator(userName) {
+            const indicator = document.getElementById('typingIndicator');
+            document.getElementById('typingUserName').innerText = userName;
+            indicator.style.display = 'flex';
+
+            if (typingTimeout) clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
+        }
+
+        window.handleKeyDown = function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        };
+
+        window.toggleEmojiPicker = function() {
+            const picker = document.getElementById('emojiPicker');
+            emojiPickerVisible = !emojiPickerVisible;
+            picker.style.display = emojiPickerVisible ? 'grid' : 'none';
+        };
+
+        window.addEmoji = function(emoji) {
+            const input = document.getElementById('messageInput');
+            input.value += emoji;
+            handleTyping();
+            toggleEmojiPicker();
+        };
+
+        window.handleImageUpload = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification('File too large (max 10MB)', 'error');
+                    return;
+                }
+                
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Only images are allowed', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const messageObj = {
+                        id: Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+                        text: '[Image]',
+                        image: e.target.result,
+                        time: new Date().toLocaleTimeString(),
+                        timestamp: new Date().toISOString(),
+                        date: CURRENT_DATE,
+                        sender: currentUser.name,
+                        senderId: currentUser.id,
+                        status: 'sent',
+                        reactions: []
+                    };
+                    
+                    if (selectedFriendId) {
+                        messageObj.receiverId = selectedFriendId;
+                        messageObj.type = 'private';
+                        
+                        if (!Database.messages[selectedFriendId]) Database.messages[selectedFriendId] = [];
+                        Database.messages[selectedFriendId].push(messageObj);
+                        displayMessage(messageObj, 'sent');
+                        
+                        addMessageLog(messageObj, currentUser.name, findUserById(selectedFriendId)?.name, 'private');
+                        
+                    } else if (selectedGroupId) {
+                        const group = Database.groups[selectedGroupId];
+                        messageObj.groupId = selectedGroupId;
+                        messageObj.type = 'group';
+                        
+                        if (!Database.messages[selectedGroupId]) Database.messages[selectedGroupId] = [];
+                        Database.messages[selectedGroupId].push(messageObj);
+                        displayMessage(messageObj, 'sent', selectedGroupId);
+                        
+                        addMessageLog(messageObj, currentUser.name, `Group: ${group.name}`, 'group');
+                    }
+                    
+                    saveDatabase();
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        // ==================== GROUPS ====================
+        window.showCreateGroup = function() {
+            const groupName = prompt('Enter group name:');
+            if (groupName && groupName.trim()) {
+                const groupId = 'group_' + Date.now();
+                Database.groups[groupId] = {
+                    id: groupId,
+                    name: groupName,
+                    members: [currentUser.id],
+                    admin: currentUser.id,
+                    icon: '👥',
+                    type: 'public',
+                    created: CURRENT_DATE
+                };
+                
+                if (!Database.userGroups[currentUser.id]) Database.userGroups[currentUser.id] = [];
+                Database.userGroups[currentUser.id].push(groupId);
+                
+                loadGroups();
+                saveDatabase();
+                showNotification(`Group '${groupName}' created!`, 'success');
+                addLog(`Group created: ${groupName}`, currentUser.id, 'info');
+            }
+        };
+
+        window.joinGroup = function(groupId, event) {
+            if (event) event.stopPropagation();
+            
+            const group = Database.groups[groupId];
+            if (!group) return;
+            
+            if (group.type === 'mod-only' && currentUser.role !== 'mod') {
+                showNotification('This group is for moderators only', 'error');
+                return;
+            }
+            
+            if (!Database.userGroups[currentUser.id]) Database.userGroups[currentUser.id] = [];
+            if (Database.userGroups[currentUser.id].includes(groupId)) {
+                showNotification('Already in this group', 'info');
+                return;
+            }
+            
+            Database.userGroups[currentUser.id].push(groupId);
+            if (!group.members) group.members = [];
+            if (!group.members.includes(currentUser.id)) {
+                group.members.push(currentUser.id);
+            }
+            
+            saveDatabase();
+            loadGroups();
+            showNotification(`Joined group: ${group.name}`, 'success');
+            addLog(`Joined group: ${group.name}`, currentUser.id, 'info');
+        };
+
+        window.leaveGroup = function(groupId, event) {
+            if (event) event.stopPropagation();
+            
+            const group = Database.groups[groupId];
+            if (!group) return;
+            
+            if (Database.userGroups[currentUser.id]) {
+                Database.userGroups[currentUser.id] = Database.userGroups[currentUser.id].filter(id => id !== groupId);
+            }
+            if (group.members) {
+                group.members = group.members.filter(id => id !== currentUser.id);
+            }
+            
+            if (selectedGroupId === groupId) {
+                closeChat();
+            }
+            
+            saveDatabase();
+            loadGroups();
+            showNotification(`Left group: ${group.name}`, 'info');
+            addLog(`Left group: ${group.name}`, currentUser.id, 'info');
+        };
+
+        window.deleteGroup = function(groupId, event) {
+            if (event) event.stopPropagation();
+            
+            if (currentUser.role !== 'mod') {
+                showNotification('Only moderators can delete groups', 'error');
+                return;
+            }
+
+            const group = Database.groups[groupId];
+            if (!group) return;
+
+            if (confirm(`Delete group "${group.name}"?`)) {
+                Object.keys(Database.userGroups).forEach(userId => {
+                    Database.userGroups[userId] = Database.userGroups[userId].filter(id => id !== groupId);
+                });
+                
+                delete Database.groups[groupId];
+                delete Database.messages[groupId];
+                
+                if (selectedGroupId === groupId) {
+                    closeChat();
+                }
+                
+                loadGroups();
+                saveDatabase();
+                showNotification('Group deleted', 'success');
+                addLog(`Group deleted: ${group.name}`, currentUser.id, 'danger');
+            }
+        };
+
+        function loadGroups() {
+            const groupsList = document.getElementById('groupsList');
+            groupsList.innerHTML = '';
+
+            if (!Database.groups || Object.keys(Database.groups).length === 0) {
+                groupsList.innerHTML = '<div style="text-align: center; padding: 20px;">No groups yet<br><small>Create one above!</small></div>';
+                return;
+            }
+
+            const userGroups = Database.userGroups[currentUser.id] || [];
+
+            Object.values(Database.groups).forEach(group => {
+                if (group.type === 'mod-only' && currentUser.role !== 'mod') return;
+                
+                const isJoined = userGroups.includes(group.id);
+                const groupEl = document.createElement('div');
+                groupEl.className = 'group-item';
+                if (selectedGroupId === group.id) groupEl.classList.add('selected');
+                
+                let actions = '';
+                if (isJoined) {
+                    actions += `<button type="button" class="leave-btn" onclick="leaveGroup('${group.id}', event)">Leave</button>`;
+                } else {
+                    actions += `<button type="button" class="join-btn" onclick="joinGroup('${group.id}', event)">Join</button>`;
+                }
+                
+                if (currentUser.role === 'mod') {
+                    actions += `<button type="button" class="delete-group-btn" onclick="deleteGroup('${group.id}', event)">🗑️</button>`;
+                }
+
+                groupEl.innerHTML = `
+                    <div class="group-avatar">${group.icon || '👥'}</div>
+                    <div class="friend-info">
+                        <div class="friend-name">
+                            ${group.name}
+                            ${isJoined ? '<span class="joined-badge">Joined</span>' : ''}
+                            <span class="friend-status">${group.members?.length || 0} members</span>
+                        </div>
+                    </div>
+                    <div class="group-actions">${actions}</div>
+                `;
+
+                groupEl.onclick = (e) => {
+                    if (e.target.classList.contains('join-btn') || 
+                        e.target.classList.contains('leave-btn') || 
+                        e.target.classList.contains('delete-group-btn')) return;
+                    selectGroup(group.id);
+                };
+
+                groupsList.appendChild(groupEl);
+            });
+        }
+
+        window.selectGroup = function(groupId) {
+            if (currentUser.role === 'logs') {
+                showNotification('Logs role cannot chat', 'error');
+                return;
+            }
+
+            const userGroups = Database.userGroups[currentUser.id] || [];
+            if (!userGroups.includes(groupId)) {
+                showNotification('You must join this group first', 'warning');
+                return;
+            }
+
+            selectedGroupId = groupId;
+            selectedFriendId = null;
+            
+            const group = Database.groups[groupId];
+            
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('chatHeader').style.display = 'flex';
+            document.getElementById('messageComposer').style.display = 'flex';
+            document.getElementById('chatTypeBadge').innerText = 'Group';
+            
+            // Fix: Use correct button IDs
+            const audioCallBtn = document.querySelector('.call-btn-audio');
+            const videoCallBtn = document.querySelector('.call-btn-video');
+            const screenShareBtn = document.querySelector('.screen-share');
+            
+            if (audioCallBtn) audioCallBtn.disabled = true;
+            if (videoCallBtn) videoCallBtn.disabled = true;
+            if (screenShareBtn) screenShareBtn.disabled = true;
+
+            document.getElementById('chatAvatar').innerText = group.icon || '👥';
+            document.getElementById('chatFriendName').innerText = group.name;
+            document.getElementById('chatFriendStatus').innerText = `${group.members?.length || 0} members`;
+
+            loadMessages(groupId);
+            loadGroups();
+        };
+
+        function closeChat() {
+            selectedFriendId = null;
+            selectedGroupId = null;
+            document.getElementById('welcomeScreen').style.display = 'flex';
+            document.getElementById('chatHeader').style.display = 'none';
+            document.getElementById('messageComposer').style.display = 'none';
+            document.getElementById('messagesContainer').innerHTML = '';
+        }
+
+        // ==================== CALL FUNCTIONS ====================
+        async function setupWebRTC() {
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: true, 
+                    video: true 
+                });
+                
+                const localVideo = document.getElementById('localVideo');
+                if (localVideo) {
+                    localVideo.srcObject = mediaStream;
+                }
+
+                return true;
+            } catch (err) {
+                console.error('WebRTC error:', err);
+                if (err.name === 'NotAllowedError') {
+                    showNotification('Please allow camera and microphone access', 'error');
+                } else if (err.name === 'NotFoundError') {
+                    showNotification('No camera or microphone found', 'error');
+                } else {
+                    showNotification('Failed to access media devices', 'error');
+                }
+                return false;
+            }
+        }
+
+        async function setupScreenShare() {
+            try {
+                screenStream = await navigator.mediaDevices.getDisplayMedia({ 
+                    video: true,
+                    audio: false
+                });
+                
+                if (peerConnection && mediaStream) {
+                    const videoTrack = mediaStream.getVideoTracks()[0];
+                    const screenTrack = screenStream.getVideoTracks()[0];
+                    
+                    if (videoTrack) {
+                        mediaStream.removeTrack(videoTrack);
+                        videoTrack.stop();
+                    }
+                    
+                    mediaStream.addTrack(screenTrack);
+                    
+                    const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                    if (sender) {
+                        sender.replaceTrack(screenTrack);
+                    }
+                }
+                
+                screenStream.getVideoTracks()[0].onended = () => {
+                    stopScreenShare();
+                };
+                
+                document.getElementById('localScreenIndicator').style.display = 'block';
+                document.getElementById('screenShareBtn').style.background = 'var(--accent-danger)';
+                document.getElementById('screenShareCallBtn').style.background = 'var(--accent-danger)';
+                isScreenSharing = true;
+                
+                showNotification('Screen sharing started', 'info');
+                return true;
+            } catch (err) {
+                console.error('Screen share error:', err);
+                showNotification('Failed to share screen', 'error');
+                return false;
+            }
+        }
+
+        async function stopScreenShare() {
+            if (screenStream) {
+                screenStream.getTracks().forEach(track => track.stop());
+                screenStream = null;
+            }
+            
+            if (mediaStream && peerConnection) {
+                try {
+                    const cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    const videoTrack = cameraStream.getVideoTracks()[0];
+                    
+                    const oldVideoTrack = mediaStream.getVideoTracks()[0];
+                    if (oldVideoTrack) {
+                        mediaStream.removeTrack(oldVideoTrack);
+                        oldVideoTrack.stop();
+                    }
+                    
+                    mediaStream.addTrack(videoTrack);
+                    
+                    const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+                    if (sender) {
+                        sender.replaceTrack(videoTrack);
+                    }
+                    
+                    document.getElementById('localVideo').srcObject = mediaStream;
+                } catch (err) {
+                    console.error('Could not get camera back:', err);
+                }
+            }
+            
+            document.getElementById('localScreenIndicator').style.display = 'none';
+            document.getElementById('screenShareBtn').style.background = 'var(--bg-tertiary)';
+            document.getElementById('screenShareCallBtn').style.background = 'var(--accent-warning)';
+            isScreenSharing = false;
+            
+            showNotification('Screen sharing stopped', 'info');
+        }
+
+        window.toggleScreenShare = async function() {
+            if (!selectedFriendId) {
+                showNotification('Select a friend to share with', 'error');
+                return;
+            }
+
+            if (!callActive) {
+                await startCall('video');
+                setTimeout(async () => {
+                    await setupScreenShare();
+                }, 2000);
+            } else {
+                if (isScreenSharing) {
+                    stopScreenShare();
+                } else {
+                    await setupScreenShare();
+                }
+            }
+        };
+
+        window.startCall = async function(type) {
+            if (currentUser.role === 'logs') {
+                showNotification('Logs role cannot make calls', 'error');
+                return;
+            }
+
+            if (!selectedFriendId) {
+                showNotification('Select a friend to call', 'error');
+                return;
+            }
+
+            if (isUserKicked(selectedFriendId)) {
+                showNotification('This user has been kicked', 'error');
+                return;
+            }
+
+            if (callActive) {
+                showNotification('Call already in progress', 'error');
+                return;
+            }
+
+            if (!await setupWebRTC()) return;
+
+            peerConnection = new RTCPeerConnection({
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' }
+                ]
+            });
+
+            mediaStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, mediaStream);
+            });
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate && selectedFriendId) {
+                    console.log('ICE candidate', event.candidate);
+                }
+            };
+
+            peerConnection.ontrack = (event) => {
+                const remoteVideo = document.getElementById('remoteVideo');
+                if (remoteVideo) {
+                    remoteVideo.srcObject = event.streams[0];
+                }
+            };
+
+            peerConnection.onconnectionstatechange = () => {
+                if (peerConnection.connectionState === 'disconnected' || 
+                    peerConnection.connectionState === 'failed' ||
+                    peerConnection.connectionState === 'closed') {
+                    endCall();
+                }
+            };
+
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+
+            startCallUI(selectedFriendId);
+            addLog('Call started', currentUser.id, 'info');
+        };
+
+        function startCallUI(friendId) {
+            callActive = true;
+            document.getElementById('callModal').classList.add('active');
+            document.getElementById('videosContainer').style.display = 'flex';
+            
+            const friend = findUserById(friendId);
+            document.getElementById('remoteVideoLabel').innerText = friend ? friend.name : 'Friend';
+            
+            callSeconds = 0;
+            if (callInterval) clearInterval(callInterval);
+            callInterval = setInterval(() => {
+                callSeconds++;
+                const mins = Math.floor(callSeconds / 60);
+                const secs = callSeconds % 60;
+                document.getElementById('callTimer').innerText = 
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        window.endCall = function() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+
+            if (screenStream) {
+                screenStream.getTracks().forEach(track => track.stop());
+                screenStream = null;
+            }
+
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
+
+            if (callInterval) {
+                clearInterval(callInterval);
+                callInterval = null;
+            }
+
+            document.getElementById('callModal').classList.remove('active');
+            callActive = false;
+            callSeconds = 0;
+            isScreenSharing = false;
+
+            document.getElementById('localVideo').srcObject = null;
+            document.getElementById('remoteVideo').srcObject = null;
+            document.getElementById('localScreenIndicator').style.display = 'none';
+            document.getElementById('remoteScreenIndicator').style.display = 'none';
+            document.getElementById('screenShareBtn').style.background = 'var(--bg-tertiary)';
+            document.getElementById('screenShareCallBtn').style.background = 'var(--accent-warning)';
+
+            showNotification('Call ended', 'info');
+            addLog('Call ended', currentUser.id, 'info');
+        };
+
+        window.toggleMute = function() {
+            if (mediaStream) {
+                const audioTracks = mediaStream.getAudioTracks();
+                isMuted = !isMuted;
+                audioTracks.forEach(track => track.enabled = !isMuted);
+                document.getElementById('muteBtn').style.background = isMuted ? 'var(--accent-danger)' : 'var(--accent-info)';
+            }
+        };
+
+        window.toggleVideo = function() {
+            if (mediaStream) {
+                const videoTracks = mediaStream.getVideoTracks();
+                isVideoEnabled = !isVideoEnabled;
+                videoTracks.forEach(track => track.enabled = isVideoEnabled);
+                document.getElementById('videoBtn').style.background = isVideoEnabled ? 'var(--accent-success)' : 'var(--accent-danger)';
+            }
+        };
+
+        // ==================== MOD PANEL ====================
+        function loadModPanel() {
+            updateAllOnlineUsers();
+            
+            const onlineList = document.getElementById('onlineUsersList');
+            if (!onlineList) return;
+            
+            onlineList.innerHTML = '';
+
+            onlineList.innerHTML += `
+                <div class="user-list-item">
+                    <span>${currentUser.name} <span class="banned-user-badge">MOD</span></span>
+                    <span class="badge mod">You</span>
+                </div>
+            `;
+
+            Object.values(connections).forEach(user => {
+                if (user.id !== currentUser.id) {
+                    const isKicked = isUserKicked(user.id);
+                    onlineList.innerHTML += `
+                        <div class="user-list-item">
+                            <span>${user.name} ${isKicked ? '<span class="banned-user-badge">KICKED</span>' : ''} (${user.ageMode === '13' ? '13+' : '9-12'})</span>
+                            <div>
+                                <button type="button" class="permaban-btn" onclick="banUserPermanentlyUI('${user.name}')">🔨 PermaBan</button>
+                                <button type="button" class="kick-btn" onclick="kickUserUI(${user.id}, '${user.name}')">👢 Kick</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (Database.bannedUsers && Database.bannedUsers.length > 0) {
+                Database.bannedUsers.forEach(user => {
+                    onlineList.innerHTML += `
+                        <div class="user-list-item" style="opacity: 0.7;">
+                            <span>${user} <span class="permabanned-badge">PERMABANNED</span></span>
+                            <div>
+                                <button type="button" class="unban-btn" onclick="unbanUserUI('${user}')">Unban</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function updateAllOnlineUsers() {
+            const allOnlineList = document.getElementById('allOnlineUsersList');
+            const allOnlineCount = document.getElementById('allOnlineCount');
+            
+            if (!allOnlineList) return;
+            
+            const onlineUsers = Object.values(connections).filter(u => u.id !== currentUser.id);
+            allOnlineCount.innerText = onlineUsers.length;
+            
+            if (onlineUsers.length === 0) {
+                allOnlineList.innerHTML = '<div style="color: var(--text-secondary); padding: 10px;">No other users online</div>';
+                return;
+            }
+            
+            allOnlineList.innerHTML = onlineUsers.map(user => {
+                return `
+                    <div class="online-user-item">
+                        <span class="online-user-name">${user.name}</span>
+                        <span class="online-user-role ${user.role}">${user.role} • ${user.ageMode === '13' ? '13+' : '9-12'}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.banUserPermanentlyUI = function(username) {
+            const reason = prompt(`Enter reason for permanently banning ${username}:`, 'Violation of rules');
+            if (reason !== null) {
+                if (banUserPermanently(username, currentUser.id, reason)) {
+                    showNotification(`🔨 ${username} has been PERMANENTLY BANNED`, 'success');
+                    loadModPanel();
+                    updateFriendsList();
+                }
+            }
+        };
+
+        window.kickUserUI = function(userId, username) {
+            const duration = prompt('Kick duration in minutes? (1-60)', '5');
+            if (duration !== null) {
+                const mins = parseInt(duration);
+                if (mins > 0 && mins <= 60) {
+                    kickUser(userId, currentUser.id, mins);
+                    showNotification(`👢 ${username} kicked for ${mins} minutes`, 'warning');
+                    loadModPanel();
+                    updateFriendsList();
+                    
+                    if (selectedFriendId === userId) {
+                        closeChat();
+                    }
+                } else {
+                    showNotification('Please enter a valid duration (1-60)', 'error');
+                }
+            }
+        };
+
+        window.unbanUserUI = function(username) {
+            if (unbanUser(username, currentUser.id)) {
+                showNotification(`✅ ${username} has been unbanned`, 'success');
+                loadModPanel();
+            }
+        };
+
+        window.toggleBanList = function() {
+            const banList = document.getElementById('banList');
+            if (banList.style.display === 'none') {
+                banList.style.display = 'block';
+                banList.innerHTML = (Database.bannedUsers || []).map(user => {
+                    const history = Database.bannedHistory.find(b => b.username === user);
+                    return `
+                        <div style="background: #8b0000; padding: 10px; margin: 5px; border-radius: 5px; color: white;">
+                            <div><strong>🚫 ${user}</strong></div>
+                            <div style="font-size: 0.9em;">Banned by: ${history?.bannedBy || 'Unknown'}</div>
+                            <div style="font-size: 0.9em;">Reason: ${history?.reason || 'No reason'}</div>
+                            <div style="font-size: 0.8em;">${history?.date || ''}</div>
+                            <button type="button" onclick="unbanUserUI('${user}')" style="margin-top: 5px; background: var(--accent-success); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Unban</button>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                banList.style.display = 'none';
+            }
+        };
+
+        window.broadcastMessage = function() {
+            const message = prompt('Enter broadcast message:');
+            if (message) {
+                showNotification('Broadcast sent (simulated)', 'success');
+                addLog(`Broadcast: ${message}`, currentUser.id, 'warning');
+            }
+        };
+
+        // ==================== LOGS PANEL ====================
+        function updateLogsPanel() {
+            document.getElementById('totalUsers').innerText = Database.users.length;
+            document.getElementById('onlineNow').innerText = Object.keys(connections).length;
+            document.getElementById('totalMessages').innerText = Database.messageCount || 0;
+
+            // Show message logs
+            const messageLogsDiv = document.getElementById('messageLogs');
+            messageLogsDiv.innerHTML = Database.messageLogs.slice(0, 50).map(log => `
+                <div class="message-log-entry">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span class="message-log-sender">${log.sender}</span>
+                        <span class="message-log-recipient">→ ${log.recipient}</span>
+                    </div>
+                    <div class="message-log-content">${log.content}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="message-log-time">${log.timestamp} | ${log.date}</span>
+                        <span class="message-log-type ${log.type}">${log.type}</span>
+                    </div>
+                </div>
+            `).join('') || '<div style="color: #888; padding: 10px;">No messages yet</div>';
+
+            // Show online users
+            const onlineDiv = document.getElementById('onlineUsersDetailed');
+            onlineDiv.innerHTML = '';
+
+            onlineDiv.innerHTML += `
+                <div class="online-user-item">
+                    <span class="name">${currentUser.name} (You - Logs)</span>
+                    <span class="badge logs">LOGS</span>
+                </div>
+            `;
+
+            Object.values(connections).forEach(user => {
+                if (user.id !== currentUser.id) {
+                    onlineDiv.innerHTML += `
+                        <div class="online-user-item">
+                            <span class="name">${user.name}</span>
+                            <span class="badge ${user.role}">${user.role}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Show banned users
+            const bannedDiv = document.getElementById('bannedUsersList');
+            bannedDiv.innerHTML = (Database.bannedUsers || []).map(user => {
+                const history = Database.bannedHistory.find(b => b.username === user);
+                return `<div style="color: #ff4444; padding: 3px;">🚫 ${user} - ${history?.reason || 'No reason'} (by ${history?.bannedBy || 'Unknown'})</div>`;
+            }).join('') || '<div style="color: #888;">No banned users</div>';
+        }
+
+        // ==================== SETTINGS ====================
+        window.openSettings = function() {
+            document.getElementById('settingsPanel').classList.add('active');
+            document.getElementById('settingsDisplayName').value = currentUser.name;
+            document.getElementById('settingsBio').value = currentUser.bio || '';
+            document.getElementById('settingsAgeMode').value = currentUser.ageMode || '13';
+        };
+
+        window.closeSettings = function() {
+            document.getElementById('settingsPanel').classList.remove('active');
+            
+            const newName = document.getElementById('settingsDisplayName').value.trim();
+            if (newName && newName !== currentUser.name) {
+                if (FORBIDDEN_USERNAMES.includes(newName.toLowerCase())) {
+                    showNotification('Please use a real name', 'error');
+                    return;
+                }
+                
+                currentUser.name = newName;
+                currentUser.avatar = newName.charAt(0).toUpperCase();
+                document.getElementById('userDisplayName').innerText = newName;
+                document.getElementById('userAvatar').innerText = newName.charAt(0).toUpperCase();
+                showNotification('Profile updated!', 'success');
+                saveDatabase();
+            }
+            
+            currentUser.bio = document.getElementById('settingsBio').value;
+            saveDatabase();
+        };
+
+        window.toggleDarkMode = function() {
+            document.body.classList.toggle('light-mode');
+            if (!Database.settings) Database.settings = {};
+            Database.settings.darkMode = !Database.settings.darkMode;
+            document.getElementById('darkModeToggle').classList.toggle('active');
+            saveDatabase();
+        };
+
+        window.toggleProfanityFilter = function() {
+            if (!Database.settings) Database.settings = {};
+            Database.settings.profanityFilter = !Database.settings.profanityFilter;
+            document.getElementById('profanityToggle').classList.toggle('active');
+            saveDatabase();
+            showNotification(`Profanity filter ${Database.settings.profanityFilter ? 'enabled' : 'disabled'}`, 'info');
+        };
+
+        window.toggleNotifications = function() {
+            if (!Database.settings) Database.settings = {};
+            Database.settings.notifications = !Database.settings.notifications;
+            document.getElementById('notificationsToggle').classList.toggle('active');
+            saveDatabase();
+        };
+
+        window.toggleSound = function() {
+            if (!Database.settings) Database.settings = {};
+            Database.settings.sound = !Database.settings.sound;
+            document.getElementById('soundToggle').classList.toggle('active');
+            saveDatabase();
+        };
+
+        window.toggleReadReceipts = function() {
+            if (!Database.settings) Database.settings = {};
+            Database.settings.readReceipts = !Database.settings.readReceipts;
+            document.getElementById('readReceiptsToggle').classList.toggle('active');
+            saveDatabase();
+        };
+
+        window.toggleLastSeen = function() {
+            if (!Database.settings) Database.settings = {};
+            Database.settings.lastSeen = !Database.settings.lastSeen;
+            document.getElementById('lastSeenToggle').classList.toggle('active');
+            saveDatabase();
+        };
+
+        window.clearChatHistory = function() {
+            const chatId = selectedGroupId || selectedFriendId;
+            if (chatId && confirm('Clear chat history?')) {
+                Database.messages[chatId] = [];
+                document.getElementById('messagesContainer').innerHTML = '';
+                saveDatabase();
+                showNotification('Chat history cleared', 'success');
+            }
+        };
+
+        window.pinChat = function() {
+            const chatId = selectedGroupId || selectedFriendId;
+            if (chatId) {
+                if (!Database.pinnedChats) Database.pinnedChats = [];
+                
+                if (Database.pinnedChats.includes(chatId)) {
+                    Database.pinnedChats = Database.pinnedChats.filter(id => id !== chatId);
+                    showNotification('Chat unpinned', 'info');
+                } else {
+                    Database.pinnedChats.push(chatId);
+                    showNotification('Chat pinned', 'success');
+                }
+                saveDatabase();
+                updateFriendsList();
+            }
+        };
+
+        window.exportData = function() {
+            const dataStr = JSON.stringify(Database, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const link = document.createElement('a');
+            link.href = dataUri;
+            link.download = `friendmail_backup_${CURRENT_DATE.replace(/ /g, '_')}.json`;
+            link.click();
+            showNotification('Data exported!', 'success');
+        };
+
+        window.importData = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const imported = JSON.parse(event.target.result);
+                        Object.assign(Database, imported);
+                        saveDatabase();
+                        showNotification('Data imported! Refreshing...', 'success');
+                        setTimeout(() => location.reload(), 1500);
+                    } catch (err) {
+                        showNotification('Invalid backup file', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        };
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification-badge ${type}`;
+            notification.innerText = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+        
+        // Update all online users every 5 seconds for mods
+        setInterval(() => {
+            if (currentUser && currentUser.role === 'mod') {
+                updateAllOnlineUsers();
+            }
+            if (currentUser && currentUser.role === 'logs') {
+                updateLogsPanel();
+            }
+            if (currentUser) {
+                updateFriendsList();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
